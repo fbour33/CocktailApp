@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primaryColor">#FDC35E</color> <!--#FCA819 -->
+    <color name="secondaryColor">#810C29</color>
+    <color name="grey">#948392</color>
+    <color name="pink">#F1B5CB</color>
+    <color name="blue">#9DD9D2</color>
+</resources>
