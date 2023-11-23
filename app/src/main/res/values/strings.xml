@@ -4,4 +4,6 @@
     <string name="categories_text">Categories</string>
     <string name="ingredients_text">Ingredients</string>
     <string name="search_bar_hint">Search</string>
+    <string name="image_description">image description</string>
+    <string name="no_result_message">No Result Found</string>
 </resources>
