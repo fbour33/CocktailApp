@@ -1,9 +1,15 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.CocktailApp" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="maxImageSize">120dp</item>
+        <item name="android:layout_margin">12dp</item>
+        <item name="tint">@color/primaryColor</item>
+        <item name="iconTint">@color/primaryColor</item>
+        <item name="drawableTint">@color/primaryColor</item>
+        <item name="textAppearanceDisplayLarge">?attr/textAppearanceTitleLarge</item>
+
     </style>
 
     <style name="Theme.CocktailApp" parent="Base.Theme.CocktailApp" />
+
 </resources>

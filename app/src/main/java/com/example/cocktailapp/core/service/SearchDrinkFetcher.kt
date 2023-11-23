@@ -3,6 +3,7 @@ package com.example.cocktailapp.core.service
 import android.util.Log
 import com.example.cocktailapp.core.model.Drink
 import com.example.cocktailapp.core.model.DrinksResponse
+import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.gson.Gson
 import okhttp3.*
 import java.io.IOException
@@ -17,17 +18,18 @@ class SearchDrinkFetcher {
             .url(URL + searchText)
             .build()
 
+
         client.newCall(request).enqueue(object: Callback {
             override fun onFailure(call: Call, e: IOException) {
-                Log.e("OKHTTP", e.localizedMessage)
+                e.localizedMessage?.let { Log.e("OKHTTP", it) }
                 callback(null)
             }
 
             override fun onResponse(call: Call, response: Response) {
-                Log.i("OKHTTP", "Search data correctly fetch")
                 val gson = Gson()
-                val responseData = response.body?.string()
-                callback(gson.fromJson(responseData, DrinksResponse::class.java))
+                val responseData = gson.fromJson(response.body?.string(), DrinksResponse::class.java)
+                callback(responseData)
+                Log.i("OKHTTP", "Search data correctly fetch ${responseData.drinks?.count()}")
             }
 
         })
