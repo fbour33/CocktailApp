@@ -1,6 +1,7 @@
 package com.example.cocktailapp.core.service
 
 import android.util.Log
+import com.example.cocktailapp.core.model.CategoriesResponse
 import com.example.cocktailapp.core.model.DrinksResponse
 import com.google.gson.Gson
 import okhttp3.Call
@@ -15,9 +16,9 @@ class CategoriesFetcher {
     private val client = OkHttpClient()
     private var URL = "www.thecocktaildb.com/api/json/v1/1/list.php?c=list"
 
-    fun fetchData(searchText: String, callback: (DrinksResponse?)->Unit){
+    fun fetchData(callback: (CategoriesResponse?)->Unit){
         val request = Request.Builder()
-            .url(URL + searchText)
+            .url(URL)
             .build()
 
         client.newCall(request).enqueue(object: Callback {
@@ -30,7 +31,7 @@ class CategoriesFetcher {
                 Log.i("OKHTTP", "Search data correctly fetch")
                 val gson = Gson()
                 val responseData = response.body?.string()
-                callback(gson.fromJson(responseData, DrinksResponse::class.java))
+                callback(gson.fromJson(responseData, CategoriesResponse::class.java))
             }
 
         })
