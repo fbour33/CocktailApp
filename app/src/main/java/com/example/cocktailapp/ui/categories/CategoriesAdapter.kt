@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.example.cocktailapp.core.model.CategoriesResponse
 import com.example.cocktailapp.core.model.Category
 import com.example.cocktailapp.databinding.ItemListBinding
 
@@ -12,7 +13,7 @@ class CategoryViewHolder(private val binding: ItemListBinding) : RecyclerView.Vi
     val titleTextView: TextView = binding.listTitleTextview
 }
 
-class CategoryAdapter(private var categories: List<Category>): RecyclerView.Adapter<CategoryViewHolder>() {
+class CategoryAdapter(private var categoryList: CategoriesResponse): RecyclerView.Adapter<CategoryViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
         val binding = ItemListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -20,16 +21,16 @@ class CategoryAdapter(private var categories: List<Category>): RecyclerView.Adap
     }
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
-        val category = categories[position]
-        holder.titleTextView.text = category.name
+        val category: Category? = categoryList.categories?.get(position)
+        holder.titleTextView.text = category?.name ?: ""
     }
 
     override fun getItemCount(): Int {
-        return categories.count()
+        return categoryList.categories?.count() ?: 0
     }
 
-    fun updateData(newCategories: List<Category>) {
-        categories = newCategories
+    fun updateData(newCategories: CategoriesResponse) {
+        categoryList = newCategories
         notifyDataSetChanged() // Actualise la vue pour refléter les nouvelles données
     }
 }

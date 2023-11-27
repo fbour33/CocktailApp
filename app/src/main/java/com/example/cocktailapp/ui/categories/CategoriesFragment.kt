@@ -1,12 +1,15 @@
 package com.example.cocktailapp.ui.categories
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.cocktailapp.core.model.CategoriesResponse
 import com.example.cocktailapp.core.model.Category
 import com.example.cocktailapp.core.service.CategoriesFetcher
 import com.example.cocktailapp.databinding.FragmentCategoriesBinding
@@ -25,7 +28,7 @@ private const val ARG_PARAM2 = "param2"
 class CategoriesFragment : Fragment() {
 
     private var _binding: FragmentCategoriesBinding? = null
-    private val binding = _binding!!
+    private val binding get() = _binding!!
 
     private lateinit var adapter: CategoryAdapter
     private lateinit var recyclerView: RecyclerView
@@ -46,16 +49,26 @@ class CategoriesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.recyclerViewCategory.apply {
-            layoutManager = LinearLayoutManager(context)
-            adapter = CategoryAdapter(emptyList())
+        adapter = CategoryAdapter(CategoriesResponse())
+        binding.recyclerViewCategory.visibility = View.INVISIBLE
+        categoriesFetcher.fetchData() { categoriesResponse ->
+            categoriesResponse?.let{
+                updateCategory(it)
+            }
         }
+    }
 
-        categoriesFetcher.fetchData {categoriesResponse ->
-            val categories = categoriesResponse?.categories.orEmpty()
-            adapter.updateData(categories)
+    private fun updateCategory(categoryResponse: CategoriesResponse){
+        activity?.runOnUiThread {
+            adapter = CategoryAdapter(categoryResponse)
+            binding.recyclerViewCategory.adapter = adapter
+            binding.recyclerViewCategory.layoutManager = LinearLayoutManager(context)
+            val handler = Handler(Looper.getMainLooper())
+            val isCategoryListNotEmpty = categoryResponse.categories?.isNotEmpty() ?: false
+            binding.recyclerViewCategory.visibility =
+                if (isCategoryListNotEmpty) View.VISIBLE else View.INVISIBLE
+
         }
-
     }
 
     override fun onDestroyView() {

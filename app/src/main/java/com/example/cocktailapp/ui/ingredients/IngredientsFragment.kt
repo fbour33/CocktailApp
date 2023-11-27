@@ -1,11 +1,22 @@
 package com.example.cocktailapp.ui.ingredients
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.cocktailapp.R
+import com.example.cocktailapp.core.model.CategoriesResponse
+import com.example.cocktailapp.core.model.IngredientsResponse
+import com.example.cocktailapp.core.service.CategoriesFetcher
+import com.example.cocktailapp.core.service.IngredientsFetcher
+import com.example.cocktailapp.databinding.FragmentCategoriesBinding
+import com.example.cocktailapp.databinding.FragmentIngredientsBinding
+import com.example.cocktailapp.ui.categories.CategoryAdapter
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -18,16 +29,16 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class IngredientsFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+
+    private var _binding: FragmentIngredientsBinding? = null
+    private val binding get() = _binding!!
+
+    private lateinit var adapter: IngredientsAdapter
+    private lateinit var recyclerView: RecyclerView
+    private val categoriesFetcher: IngredientsFetcher = IngredientsFetcher()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
     }
 
     override fun onCreateView(
@@ -35,7 +46,37 @@ class IngredientsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_ingredients, container, false)
+        _binding = FragmentIngredientsBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        adapter = IngredientsAdapter(IngredientsResponse())
+        binding.recyclerViewIngredient.visibility = View.INVISIBLE
+        categoriesFetcher.fetchData() { ingredientResponse ->
+            ingredientResponse?.let{
+                updateIngredient(it)
+            }
+        }
+    }
+
+    private fun updateIngredient(ingredientsResponse: IngredientsResponse){
+        activity?.runOnUiThread {
+            adapter = IngredientsAdapter(ingredientsResponse)
+            binding.recyclerViewIngredient.adapter = adapter
+            binding.recyclerViewIngredient.layoutManager = LinearLayoutManager(context)
+            val handler = Handler(Looper.getMainLooper())
+            val isCategoryListNotEmpty = ingredientsResponse.ingredients?.isNotEmpty() ?: false
+            binding.recyclerViewIngredient.visibility =
+                if (isCategoryListNotEmpty) View.VISIBLE else View.INVISIBLE
+
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     companion object {
