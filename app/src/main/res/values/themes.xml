@@ -2,8 +2,6 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.CocktailApp" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="maxImageSize">120dp</item>
-        <item name="android:layout_margin">12dp</item>
-        <item name="tint">@color/primaryColor</item>
         <item name="iconTint">@color/primaryColor</item>
         <item name="drawableTint">@color/primaryColor</item>
         <item name="textAppearanceDisplayLarge">?attr/textAppearanceTitleLarge</item>
