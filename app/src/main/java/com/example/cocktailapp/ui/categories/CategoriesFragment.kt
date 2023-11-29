@@ -10,10 +10,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cocktailapp.core.model.CategoriesResponse
-import com.example.cocktailapp.core.model.Category
 import com.example.cocktailapp.core.service.CategoriesFetcher
 import com.example.cocktailapp.databinding.FragmentCategoriesBinding
-import com.example.cocktailapp.databinding.ItemListBinding
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -67,6 +66,7 @@ class CategoriesFragment : Fragment() {
             val isCategoryListNotEmpty = categoryResponse.categories?.isNotEmpty() ?: false
             binding.recyclerViewCategory.visibility =
                 if (isCategoryListNotEmpty) View.VISIBLE else View.INVISIBLE
+
 
         }
     }

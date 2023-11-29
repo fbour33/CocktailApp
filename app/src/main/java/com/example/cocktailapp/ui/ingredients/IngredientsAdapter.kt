@@ -2,6 +2,7 @@ package com.example.cocktailapp.ui.ingredients
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cocktailapp.core.model.CategoriesResponse
@@ -13,6 +14,7 @@ import com.example.cocktailapp.ui.categories.CategoryViewHolder
 
 class IngredientViewHolder(private val binding: ItemListBinding) : RecyclerView.ViewHolder(binding.root) {
     val titleTextView: TextView = binding.listTitleTextview
+    val iconView: ImageView = binding.listIcon
 }
 class IngredientsAdapter(private var ingredientList: IngredientsResponse): RecyclerView.Adapter<IngredientViewHolder>() {
 
@@ -24,6 +26,8 @@ class IngredientsAdapter(private var ingredientList: IngredientsResponse): Recyc
     override fun onBindViewHolder(holder: IngredientViewHolder, position: Int) {
         val ingredient: Ingredient? = ingredientList.ingredients?.get(position)
         holder.titleTextView.text = ingredient?.name ?: ""
+        var resId: Int = holder.iconView.context.resources.getIdentifier("@drawable/tag", null, holder.iconView.context.packageName)
+        holder.iconView.setImageResource(resId)
     }
 
     override fun getItemCount(): Int {

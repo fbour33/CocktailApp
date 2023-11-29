@@ -66,7 +66,6 @@ class IngredientsFragment : Fragment() {
             adapter = IngredientsAdapter(ingredientsResponse)
             binding.recyclerViewIngredient.adapter = adapter
             binding.recyclerViewIngredient.layoutManager = LinearLayoutManager(context)
-            val handler = Handler(Looper.getMainLooper())
             val isCategoryListNotEmpty = ingredientsResponse.ingredients?.isNotEmpty() ?: false
             binding.recyclerViewIngredient.visibility =
                 if (isCategoryListNotEmpty) View.VISIBLE else View.INVISIBLE
