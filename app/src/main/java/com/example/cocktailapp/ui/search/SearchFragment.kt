@@ -1,17 +1,16 @@
 package com.example.cocktailapp.ui.search
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.cocktailapp.core.model.ApiUrls
 import com.example.cocktailapp.core.model.DrinksResponse
 import com.example.cocktailapp.core.service.SearchDrinkFetcher
 import com.example.cocktailapp.databinding.FragmentSearchBinding
-import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.textfield.TextInputEditText
 
 private const val ARG_PARAM1 = "param1"
@@ -59,7 +58,7 @@ class SearchFragment : Fragment() {
         binding.noResultView.visibility = View.INVISIBLE
         binding.cocktailRecyclerView.visibility = View.INVISIBLE
         binding.circularProgressIndicator.visibility = View.VISIBLE
-        searchService.fetchData(query) {drinksResponse ->
+        searchService.fetchData(ApiUrls.URL_COCKTAIL_SEARCH, query) { drinksResponse ->
             drinksResponse?.let {
                 updateUI(it)
             }

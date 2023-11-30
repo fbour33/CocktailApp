@@ -1,6 +1,7 @@
 package com.example.cocktailapp.core.service
 
 import android.util.Log
+import com.example.cocktailapp.core.model.ApiUrls
 import com.example.cocktailapp.core.model.Drink
 import com.example.cocktailapp.core.model.DrinksResponse
 import com.google.android.material.progressindicator.CircularProgressIndicator
@@ -11,14 +12,10 @@ import java.io.IOException
 class SearchDrinkFetcher {
 
     private val client = OkHttpClient()
-    private var URL_SEARCH = "https://www.thecocktaildb.com/api/json/v1/1/search.php?s="
-    private var URL_ID = "https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i="
-
-    fun fetchData(searchText: String, isId : Boolean = false, callback: (DrinksResponse?)->Unit){
-        val URL = if (isId) {URL_ID} else {URL_SEARCH}
+    fun fetchData(url: ApiUrls, searchText: String = "", isId : Boolean = false, callback: (DrinksResponse?)->Unit){
 
         val request = Request.Builder()
-            .url(URL + searchText)
+            .url(url.value + searchText)
             .build()
 
 

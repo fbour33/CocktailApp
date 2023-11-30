@@ -26,6 +26,7 @@
         app:layout_constraintBottom_toTopOf="@+id/detail_tab"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
         />
 
     <com.google.android.material.tabs.TabLayout
@@ -35,7 +36,13 @@
         app:layout_constraintTop_toBottomOf="@+id/cocktail_name"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:tabMode="fixed">
+        app:tabSelectedTextAppearance="@style/TextAppearance.AppCompat.Light.Widget.PopupMenu.Small"
+        app:tabSelectedTextColor="@color/secondaryColor"
+        app:tabIndicatorColor="@color/secondaryColor"
+        app:tabTextColor="@color/primaryColor"
+        app:tabTextAppearance="@style/TextAppearance.AppCompat.Light.Widget.PopupMenu.Small"
+        app:tabBackground="@color/design_default_color_on_primary"
+        >
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
@@ -55,13 +62,15 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintTop_toBottomOf="@+id/detail_tab"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_margin="12sp">
         <TextView
             android:id="@+id/text_instruction_detail"
-            android:gravity="center"
+            android:gravity="center_horizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textSize="20sp"/>
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -70,12 +79,12 @@
         android:layout_height="0dp"
         app:layout_constraintTop_toBottomOf="@+id/detail_tab"
         app:layout_constraintBottom_toBottomOf="parent">
-        <TextView
-            android:id="@+id/text_ingredient_detail"
-            android:gravity="center"
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/ingredient_recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:textSize="20sp"/>
+            android:layout_height="match_parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

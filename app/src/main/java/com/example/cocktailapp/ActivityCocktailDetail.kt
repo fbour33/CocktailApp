@@ -4,15 +4,12 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.cocktailapp.core.model.ApiUrls
 import com.example.cocktailapp.core.model.DrinksResponse
 import com.example.cocktailapp.core.service.SearchDrinkFetcher
 import com.example.cocktailapp.databinding.ActivityCocktailDetailBinding
-import com.example.cocktailapp.ui.categories.CategoriesFragment
-import com.example.cocktailapp.ui.ingredients.IngredientsFragment
-import com.example.cocktailapp.ui.search.SearchAdapter
-import com.example.cocktailapp.ui.search.SearchFragment
+import com.example.cocktailapp.ui.detail.IngredientAdapter
 import com.google.android.material.tabs.TabLayout
 import com.squareup.picasso.Picasso
 
@@ -22,6 +19,8 @@ class ActivityCocktailDetail : AppCompatActivity(), TabLayout.OnTabSelectedListe
     private lateinit var binding: ActivityCocktailDetailBinding
     private val searchService = SearchDrinkFetcher()
     private lateinit var tabLayout: TabLayout
+    private lateinit var ingredientAdapter: IngredientAdapter
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,14 +28,11 @@ class ActivityCocktailDetail : AppCompatActivity(), TabLayout.OnTabSelectedListe
         setContentView(binding.root)
         val cocktailId = intent.getStringExtra("cocktail_id")
 
-
+        Log.i("DETAIL", "Detail from $cocktailId")
         binding.ingredientsDetail.visibility = View.GONE
 
         tabLayout = binding.detailTab
         tabLayout.addOnTabSelectedListener(this)
-
-        val stringValue = "Id du cocktail cliqué: $cocktailId"
-        binding.textIngredientDetail.text = stringValue
 
         if (cocktailId != null) {
             search(cocktailId)
@@ -45,7 +41,7 @@ class ActivityCocktailDetail : AppCompatActivity(), TabLayout.OnTabSelectedListe
     }
 
     private fun search(query: String){
-        searchService.fetchData(query, true) {drinksResponse ->
+        searchService.fetchData(ApiUrls.URL_COCKTAIL_DETAIL, query, true) { drinksResponse ->
             drinksResponse?.let {
                 updateUI(it)
             }
@@ -58,7 +54,9 @@ class ActivityCocktailDetail : AppCompatActivity(), TabLayout.OnTabSelectedListe
             Picasso.get().load(drink?.imageURL).into(binding.cocktailImage)
             binding.cocktailName.text = drink?.title
             binding.textInstructionDetail.text = drink?.instructions
-
+            ingredientAdapter = IngredientAdapter(drink?.getIngredients() ?: emptyList(), drink?.getMeasures() ?: emptyList())
+            binding.ingredientRecyclerView.adapter = ingredientAdapter
+            binding.ingredientRecyclerView.layoutManager = LinearLayoutManager(applicationContext)
         }
     }
 
