@@ -6,4 +6,6 @@
     <string name="search_bar_hint">Search</string>
     <string name="image_description">image description</string>
     <string name="no_result_message">No Result Found</string>
+    <string name="ingredient_option">Ingredients</string>
+    <string name="instruction_option">Instructions</string>
 </resources>

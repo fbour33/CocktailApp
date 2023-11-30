@@ -11,9 +11,12 @@ import java.io.IOException
 class SearchDrinkFetcher {
 
     private val client = OkHttpClient()
-    private var URL = "https://www.thecocktaildb.com/api/json/v1/1/search.php?s="
+    private var URL_SEARCH = "https://www.thecocktaildb.com/api/json/v1/1/search.php?s="
+    private var URL_ID = "https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i="
 
-    fun fetchData(searchText: String, callback: (DrinksResponse?)->Unit){
+    fun fetchData(searchText: String, isId : Boolean = false, callback: (DrinksResponse?)->Unit){
+        val URL = if (isId) {URL_ID} else {URL_SEARCH}
+
         val request = Request.Builder()
             .url(URL + searchText)
             .build()
