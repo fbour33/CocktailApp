@@ -15,6 +15,10 @@
         android:theme="@style/Theme.CocktailApp"
         tools:targetApi="31">
         <activity
+            android:name=".ActivityCocktailDetail"
+            android:exported="false"
+            android:theme="@style/Theme.CocktailApp" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

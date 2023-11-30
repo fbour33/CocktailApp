@@ -9,14 +9,66 @@ class DrinksResponse {
 }
 
 class Drink {
+    public fun getIngredients(): List<String> {
+        return listOf(
+            ingredient1 ?: "",
+            ingredient2 ?: "",
+            ingredient3 ?: "",
+            ingredient4 ?: "",
+            ingredient5 ?: "",
+            ingredient6 ?: "",
+            ingredient7 ?: "",
+            ingredient8 ?: "",
+            ingredient9 ?: "",
+            ingredient10 ?: "",
+            ingredient11 ?: "",
+            ingredient12 ?: "",
+            ingredient13 ?: "",
+            ingredient14 ?: "",
+            ingredient15 ?: ""
+        )
+    }
+
+    public fun getMeasures(): List<String> {
+        return listOf(
+            measure1 ?: "",
+            measure2 ?: "",
+            measure3 ?: "",
+            measure4 ?: "",
+            measure5 ?: "",
+            measure6 ?: "",
+            measure7 ?: "",
+            measure8 ?: "",
+            measure9 ?: "",
+            measure10 ?: "",
+            measure11 ?: "",
+            measure12 ?: "",
+            measure13 ?: "",
+            measure14 ?: "",
+            measure15 ?: ""
+        )
+    }
+
     @SerializedName("idDrink")
     var id: String? = null
 
     @SerializedName("strDrink")
     var title: String? = null
 
+    @SerializedName("strDrinkAlternate")
+    var alternate: String? = null
+
+    @SerializedName("strTags")
+    var tags: String? = null
+
     @SerializedName("strCategory")
     var category: String? = null
+
+    @SerializedName("strAlcoholic")
+    var alcoholic: String? = null
+
+    @SerializedName("strGlass")
+    var glass: String? = null
 
     @SerializedName("strInstructions")
     var instructions: String? = null
@@ -113,4 +165,8 @@ class Drink {
 
     @SerializedName("strMeasure15")
     var measure15: String? = null
+
+    @SerializedName("dateModified")
+    var date: String? = null
+
 }
