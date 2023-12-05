@@ -1,12 +1,12 @@
 package com.example.cocktailapp.ui.categories
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cocktailapp.core.model.CategoriesResponse
@@ -48,7 +48,7 @@ class CategoriesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        adapter = CategoryAdapter(CategoriesResponse())
+        adapter = CategoryAdapter(CategoriesResponse(), )
         binding.recyclerViewCategory.visibility = View.INVISIBLE
         binding.circularProgressIndicator.visibility = View.VISIBLE
         categoriesFetcher.fetchData() { categoriesResponse ->
@@ -60,7 +60,9 @@ class CategoriesFragment : Fragment() {
 
     private fun updateCategory(categoryResponse: CategoriesResponse){
         activity?.runOnUiThread {
-            adapter = CategoryAdapter(categoryResponse)
+            adapter = CategoryAdapter(categoryResponse(), object : CategoryAdapter.OnClickListener {
+                override fun onItemClick(catData: String) = showSelectionDialog(catData)
+            })
             binding.recyclerViewCategory.adapter = adapter
             binding.recyclerViewCategory.layoutManager = LinearLayoutManager(context)
             binding.circularProgressIndicator.visibility = View.GONE
@@ -75,6 +77,10 @@ class CategoriesFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun changeView(categoryName: String){
+        Log.d("CARD", "Category ${categoryName} clicked")
     }
 
     companion object {
