@@ -26,7 +26,7 @@ class IngredientsAdapter(private var ingredientList: IngredientsResponse): Recyc
     override fun onBindViewHolder(holder: IngredientViewHolder, position: Int) {
         val ingredient: Ingredient? = ingredientList.ingredients?.get(position)
         holder.titleTextView.text = ingredient?.name ?: ""
-        var resId: Int = holder.iconView.context.resources.getIdentifier("@drawable/tag", null, holder.iconView.context.packageName)
+        var resId: Int = holder.iconView.context.resources.getIdentifier("@drawable/lemon", null, holder.iconView.context.packageName)
         holder.iconView.setImageResource(resId)
     }
 

@@ -54,6 +54,7 @@ class IngredientsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         adapter = IngredientsAdapter(IngredientsResponse())
         binding.recyclerViewIngredient.visibility = View.INVISIBLE
+        binding.circularProgressIndicator.visibility = View.VISIBLE
         categoriesFetcher.fetchData() { ingredientResponse ->
             ingredientResponse?.let{
                 updateIngredient(it)
@@ -66,6 +67,7 @@ class IngredientsFragment : Fragment() {
             adapter = IngredientsAdapter(ingredientsResponse)
             binding.recyclerViewIngredient.adapter = adapter
             binding.recyclerViewIngredient.layoutManager = LinearLayoutManager(context)
+            binding.circularProgressIndicator.visibility = View.GONE
             val isCategoryListNotEmpty = ingredientsResponse.ingredients?.isNotEmpty() ?: false
             binding.recyclerViewIngredient.visibility =
                 if (isCategoryListNotEmpty) View.VISIBLE else View.INVISIBLE

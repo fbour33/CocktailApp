@@ -50,6 +50,7 @@ class CategoriesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         adapter = CategoryAdapter(CategoriesResponse())
         binding.recyclerViewCategory.visibility = View.INVISIBLE
+        binding.circularProgressIndicator.visibility = View.VISIBLE
         categoriesFetcher.fetchData() { categoriesResponse ->
             categoriesResponse?.let{
                 updateCategory(it)
@@ -62,7 +63,7 @@ class CategoriesFragment : Fragment() {
             adapter = CategoryAdapter(categoryResponse)
             binding.recyclerViewCategory.adapter = adapter
             binding.recyclerViewCategory.layoutManager = LinearLayoutManager(context)
-            val handler = Handler(Looper.getMainLooper())
+            binding.circularProgressIndicator.visibility = View.GONE
             val isCategoryListNotEmpty = categoryResponse.categories?.isNotEmpty() ?: false
             binding.recyclerViewCategory.visibility =
                 if (isCategoryListNotEmpty) View.VISIBLE else View.INVISIBLE
