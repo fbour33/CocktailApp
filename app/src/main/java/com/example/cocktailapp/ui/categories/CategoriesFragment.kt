@@ -9,8 +9,11 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.cocktailapp.core.model.ApiUrls
 import com.example.cocktailapp.core.model.CategoriesResponse
+import com.example.cocktailapp.core.model.DrinksResponse
 import com.example.cocktailapp.core.service.CategoriesFetcher
+import com.example.cocktailapp.core.service.SearchDrinkFetcher
 import com.example.cocktailapp.databinding.FragmentCategoriesBinding
 
 
@@ -30,8 +33,7 @@ class CategoriesFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var adapter: CategoryAdapter
-    private lateinit var recyclerView: RecyclerView
-    private val categoriesFetcher: CategoriesFetcher = CategoriesFetcher()
+    private val categoriesFetcher = SearchDrinkFetcher()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +42,7 @@ class CategoriesFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentCategoriesBinding.inflate(inflater, container, false)
         return binding.root
@@ -48,23 +50,22 @@ class CategoriesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        adapter = CategoryAdapter(CategoriesResponse())
         binding.recyclerViewCategory.visibility = View.INVISIBLE
         binding.circularProgressIndicator.visibility = View.VISIBLE
-        categoriesFetcher.fetchData() { categoriesResponse ->
+        categoriesFetcher.fetchData(ApiUrls.URL_CATEGORY_LIST) { categoriesResponse ->
             categoriesResponse?.let{
                 updateCategory(it)
             }
         }
     }
 
-    private fun updateCategory(categoryResponse: CategoriesResponse){
+    private fun updateCategory(categoryResponse: DrinksResponse){
         activity?.runOnUiThread {
             adapter = CategoryAdapter(categoryResponse)
             binding.recyclerViewCategory.adapter = adapter
             binding.recyclerViewCategory.layoutManager = LinearLayoutManager(context)
             binding.circularProgressIndicator.visibility = View.GONE
-            val isCategoryListNotEmpty = categoryResponse.categories?.isNotEmpty() ?: false
+            val isCategoryListNotEmpty = categoryResponse.drinks?.isNotEmpty() ?: false
             binding.recyclerViewCategory.visibility =
                 if (isCategoryListNotEmpty) View.VISIBLE else View.INVISIBLE
 

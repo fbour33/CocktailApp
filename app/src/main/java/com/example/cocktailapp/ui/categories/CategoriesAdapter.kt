@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.cocktailapp.core.model.CategoriesResponse
 import com.example.cocktailapp.core.model.Category
+import com.example.cocktailapp.core.model.Drink
+import com.example.cocktailapp.core.model.DrinksResponse
 import com.example.cocktailapp.databinding.ItemListBinding
 
 class CategoryViewHolder(
@@ -20,7 +22,7 @@ class CategoryViewHolder(
 }
 
 class CategoryAdapter(
-    private var categoryList: CategoriesResponse,
+    private var categoryList: DrinksResponse,
 ): RecyclerView.Adapter<CategoryViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
@@ -29,19 +31,19 @@ class CategoryAdapter(
     }
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
-        val category: Category? = categoryList.categories?.get(position)
-        holder.titleTextView.text = category?.name ?: ""
+        val category: Drink? = categoryList.drinks?.get(position)
+        holder.titleTextView.text = category?.category ?: ""
         var resId: Int = holder.iconView.context.resources.getIdentifier("@drawable/tag", null, holder.iconView.context.packageName)
         holder.iconView.setImageResource(resId)
     }
 
     override fun getItemCount(): Int {
-        return categoryList.categories?.count() ?: 0
+        return categoryList.drinks?.count() ?: 0
     }
 
-    fun updateData(newCategories: CategoriesResponse) {
-        categoryList = newCategories
-        notifyDataSetChanged() // Actualise la vue pour refléter les nouvelles données
-    }
+    //fun updateData(newCategories: CategoriesResponse) {
+    //    categoryList = newCategories
+    //    notifyDataSetChanged() // Actualise la vue pour refléter les nouvelles données
+    //}
 
 }
