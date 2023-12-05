@@ -1,11 +1,18 @@
 package com.example.cocktailapp.ui.categories
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.cocktailapp.R
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.cocktailapp.core.model.CategoriesResponse
+import com.example.cocktailapp.core.service.CategoriesFetcher
+import com.example.cocktailapp.databinding.FragmentCategoriesBinding
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -18,16 +25,16 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class CategoriesFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+
+    private var _binding: FragmentCategoriesBinding? = null
+    private val binding get() = _binding!!
+
+    private lateinit var adapter: CategoryAdapter
+    private lateinit var recyclerView: RecyclerView
+    private val categoriesFetcher: CategoriesFetcher = CategoriesFetcher()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
     }
 
     override fun onCreateView(
@@ -35,7 +42,39 @@ class CategoriesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_categories, container, false)
+        _binding = FragmentCategoriesBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        adapter = CategoryAdapter(CategoriesResponse())
+        binding.recyclerViewCategory.visibility = View.INVISIBLE
+        binding.circularProgressIndicator.visibility = View.VISIBLE
+        categoriesFetcher.fetchData() { categoriesResponse ->
+            categoriesResponse?.let{
+                updateCategory(it)
+            }
+        }
+    }
+
+    private fun updateCategory(categoryResponse: CategoriesResponse){
+        activity?.runOnUiThread {
+            adapter = CategoryAdapter(categoryResponse)
+            binding.recyclerViewCategory.adapter = adapter
+            binding.recyclerViewCategory.layoutManager = LinearLayoutManager(context)
+            binding.circularProgressIndicator.visibility = View.GONE
+            val isCategoryListNotEmpty = categoryResponse.categories?.isNotEmpty() ?: false
+            binding.recyclerViewCategory.visibility =
+                if (isCategoryListNotEmpty) View.VISIBLE else View.INVISIBLE
+
+
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     companion object {
