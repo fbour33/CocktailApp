@@ -23,6 +23,7 @@ class CategoryViewHolder(
 
 class CategoryAdapter(
     private var categoryList: DrinksResponse,
+    private val onItemClick: (String) -> Unit
 ): RecyclerView.Adapter<CategoryViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
@@ -35,6 +36,10 @@ class CategoryAdapter(
         holder.titleTextView.text = category?.category ?: ""
         var resId: Int = holder.iconView.context.resources.getIdentifier("@drawable/tag", null, holder.iconView.context.packageName)
         holder.iconView.setImageResource(resId)
+        holder.itemView.setOnClickListener {
+            val categoryName = category?.category ?: ""
+            onItemClick(categoryName) // Appel du callback avec le nom de la catégorie
+        }
     }
 
     override fun getItemCount(): Int {

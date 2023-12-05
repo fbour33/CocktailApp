@@ -6,11 +6,13 @@ import android.util.Log
 import androidx.fragment.app.Fragment
 import com.example.cocktailapp.databinding.ActivityMainBinding
 import com.example.cocktailapp.ui.categories.CategoriesFragment
+import com.example.cocktailapp.ui.categories.CategoryListener
+import com.example.cocktailapp.ui.cocktails.CocktailFragment
 import com.example.cocktailapp.ui.ingredients.IngredientsFragment
 import com.example.cocktailapp.ui.search.SearchFragment
 import com.google.android.material.tabs.TabLayout
 
-class MainActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener {
+class MainActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, CategoryListener {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var tabLayout: TabLayout
@@ -56,5 +58,13 @@ class MainActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener {
         }
     }
 
+    override fun onSelected(categoryName: String) {
+        val cocktailFragment = CocktailFragment.newInstance(categoryName)
+
+        supportFragmentManager.beginTransaction()
+            .replace(binding.fragmentContainer.id, cocktailFragment)
+            .addToBackStack(null)
+            .commit()
+    }
 
 }

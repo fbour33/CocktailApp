@@ -1,5 +1,6 @@
 package com.example.cocktailapp.ui.categories
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -9,12 +10,14 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.cocktailapp.MainActivity
 import com.example.cocktailapp.core.model.ApiUrls
 import com.example.cocktailapp.core.model.CategoriesResponse
 import com.example.cocktailapp.core.model.DrinksResponse
 import com.example.cocktailapp.core.service.CategoriesFetcher
 import com.example.cocktailapp.core.service.SearchDrinkFetcher
 import com.example.cocktailapp.databinding.FragmentCategoriesBinding
+import com.example.cocktailapp.ui.cocktails.CocktailFragment
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -27,13 +30,28 @@ private const val ARG_PARAM2 = "param2"
  * Use the [CategoriesFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
+
+interface CategoryListener {
+    fun onSelected(categoryName: String)
+}
+
 class CategoriesFragment : Fragment() {
 
     private var _binding: FragmentCategoriesBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var adapter: CategoryAdapter
+    private lateinit var listener: CategoryListener
     private val categoriesFetcher = SearchDrinkFetcher()
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is CategoryListener) {
+            listener = context
+        } else {
+            throw RuntimeException("Must implement AnswersListener")
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,7 +79,10 @@ class CategoriesFragment : Fragment() {
 
     private fun updateCategory(categoryResponse: DrinksResponse){
         activity?.runOnUiThread {
-            adapter = CategoryAdapter(categoryResponse)
+            adapter = CategoryAdapter(categoryResponse) { categoryName ->
+                Log.d("CARD", "Category $categoryName clicked")
+                listener.onSelected(categoryName)
+            }
             binding.recyclerViewCategory.adapter = adapter
             binding.recyclerViewCategory.layoutManager = LinearLayoutManager(context)
             binding.circularProgressIndicator.visibility = View.GONE
@@ -76,10 +97,6 @@ class CategoriesFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    private fun changeView(categoryName: String){
-        Log.d("CARD", "Category ${categoryName} clicked")
     }
 
     companion object {
