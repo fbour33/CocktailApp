@@ -48,7 +48,7 @@ class CategoriesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        adapter = CategoryAdapter(CategoriesResponse(), )
+        adapter = CategoryAdapter(CategoriesResponse())
         binding.recyclerViewCategory.visibility = View.INVISIBLE
         binding.circularProgressIndicator.visibility = View.VISIBLE
         categoriesFetcher.fetchData() { categoriesResponse ->
@@ -60,9 +60,7 @@ class CategoriesFragment : Fragment() {
 
     private fun updateCategory(categoryResponse: CategoriesResponse){
         activity?.runOnUiThread {
-            adapter = CategoryAdapter(categoryResponse(), object : CategoryAdapter.OnClickListener {
-                override fun onItemClick(catData: String) = showSelectionDialog(catData)
-            })
+            adapter = CategoryAdapter(categoryResponse)
             binding.recyclerViewCategory.adapter = adapter
             binding.recyclerViewCategory.layoutManager = LinearLayoutManager(context)
             binding.circularProgressIndicator.visibility = View.GONE

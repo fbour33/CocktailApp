@@ -14,26 +14,18 @@ import com.example.cocktailapp.databinding.ItemListBinding
 
 class CategoryViewHolder(
     private val binding: ItemListBinding,
-    private val onClickListener: OnClickListener
 ) : RecyclerView.ViewHolder(binding.root) {
     val titleTextView: TextView = binding.listTitleTextview
     val iconView: ImageView = binding.listIcon
-
-    interface OnClickListener {
-        fun onClick(categoryName: String)
-    }
 }
 
 class CategoryAdapter(
     private var categoryList: CategoriesResponse,
-    private val onClickListener: OnClickListener
 ): RecyclerView.Adapter<CategoryViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
         val binding = ItemListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return CategoryViewHolder(binding, object : CategoryViewHolder.OnClickListener {
-            override fun onClick(categoryName: String) = onClickListener.onItemClick(categoryName)
-        })
+        return CategoryViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
@@ -50,10 +42,6 @@ class CategoryAdapter(
     fun updateData(newCategories: CategoriesResponse) {
         categoryList = newCategories
         notifyDataSetChanged() // Actualise la vue pour refléter les nouvelles données
-    }
-
-    interface OnClickListener {
-        fun onItemClick(categoryName: String)
     }
 
 }
