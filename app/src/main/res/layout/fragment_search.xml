@@ -13,7 +13,10 @@
         android:layout_height="0dp"
         android:hint="@string/search_bar_hint"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_margin="12dp">
+        android:layout_margin="12dp"
+        app:boxStrokeColor="@color/secondaryColor"
+        app:hintTextColor="@color/secondaryColor"
+        app:cursorColor="@color/secondaryColor">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
