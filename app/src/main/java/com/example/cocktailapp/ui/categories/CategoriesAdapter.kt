@@ -45,10 +45,4 @@ class CategoryAdapter(
     override fun getItemCount(): Int {
         return categoryList.drinks?.count() ?: 0
     }
-
-    //fun updateData(newCategories: CategoriesResponse) {
-    //    categoryList = newCategories
-    //    notifyDataSetChanged() // Actualise la vue pour refléter les nouvelles données
-    //}
-
 }

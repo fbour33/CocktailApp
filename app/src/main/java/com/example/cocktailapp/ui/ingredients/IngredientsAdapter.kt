@@ -18,7 +18,10 @@ class IngredientViewHolder(private val binding: ItemListBinding) : RecyclerView.
     val titleTextView: TextView = binding.listTitleTextview
     val iconView: ImageView = binding.listIcon
 }
-class IngredientsAdapter(private var ingredientList: DrinksResponse): RecyclerView.Adapter<IngredientViewHolder>() {
+class IngredientsAdapter(
+    private var ingredientList: DrinksResponse,
+    private val onItemClick: (String) -> Unit
+): RecyclerView.Adapter<IngredientViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IngredientViewHolder {
         val binding = ItemListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -30,6 +33,10 @@ class IngredientsAdapter(private var ingredientList: DrinksResponse): RecyclerVi
         holder.titleTextView.text = ingredient?.ingredient1 ?: ""
         var resId: Int = holder.iconView.context.resources.getIdentifier("@drawable/lemon", null, holder.iconView.context.packageName)
         holder.iconView.setImageResource(resId)
+        holder.itemView.setOnClickListener {
+            val ingredientName = ingredient?.ingredient1 ?: ""
+            onItemClick(ingredientName) // Appel du callback avec le nom de la catégorie
+        }
     }
 
     override fun getItemCount(): Int {

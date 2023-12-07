@@ -1,8 +1,10 @@
 package com.example.cocktailapp.ui.ingredients
 
+import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -20,6 +22,7 @@ import com.example.cocktailapp.core.service.SearchDrinkFetcher
 import com.example.cocktailapp.databinding.FragmentCategoriesBinding
 import com.example.cocktailapp.databinding.FragmentIngredientsBinding
 import com.example.cocktailapp.ui.categories.CategoryAdapter
+import com.example.cocktailapp.ui.categories.CategoryListener
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -37,7 +40,17 @@ class IngredientsFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var adapter: IngredientsAdapter
+    private lateinit var listener: CategoryListener
     private val categoriesFetcher = SearchDrinkFetcher()
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is CategoryListener) {
+            listener = context
+        } else {
+            throw RuntimeException("Must implement AnswersListener")
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,7 +78,10 @@ class IngredientsFragment : Fragment() {
 
     private fun updateIngredient(ingredientsResponse: DrinksResponse){
         activity?.runOnUiThread {
-            adapter = IngredientsAdapter(ingredientsResponse)
+            adapter = IngredientsAdapter(ingredientsResponse) { ingredientName ->
+                Log.d("CARD", "Ingredient $ingredientName clicked")
+                listener.onSelected(ingredientName)
+            }
             binding.recyclerViewIngredient.adapter = adapter
             binding.recyclerViewIngredient.layoutManager = LinearLayoutManager(context)
             binding.circularProgressIndicator.visibility = View.GONE
