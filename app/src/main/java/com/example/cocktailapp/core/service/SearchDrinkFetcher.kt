@@ -2,9 +2,7 @@ package com.example.cocktailapp.core.service
 
 import android.util.Log
 import com.example.cocktailapp.core.model.ApiUrls
-import com.example.cocktailapp.core.model.Drink
 import com.example.cocktailapp.core.model.DrinksResponse
-import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.gson.Gson
 import okhttp3.*
 import java.io.IOException
@@ -12,7 +10,7 @@ import java.io.IOException
 class SearchDrinkFetcher {
 
     private val client = OkHttpClient()
-    fun fetchData(url: ApiUrls, searchText: String = "", isId : Boolean = false, callback: (DrinksResponse?)->Unit){
+    fun fetchData(url: ApiUrls, searchText: String = "", callback: (DrinksResponse?)->Unit){
 
         val request = Request.Builder()
             .url(url.value + searchText)

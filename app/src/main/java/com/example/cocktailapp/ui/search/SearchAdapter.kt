@@ -41,7 +41,7 @@ class SearchAdapter(private val cocktailList: DrinksResponse) : RecyclerView.Ada
 
 }
 
-class SearchViewHolder(val binding: SearchItemBinding) : RecyclerView.ViewHolder(binding.root) {
+class SearchViewHolder(binding: SearchItemBinding) : RecyclerView.ViewHolder(binding.root) {
     val titleTextView: TextView = binding.cocktailName
     val imageView: ImageView = binding.cocktailImage
     val cardContainer: CardView = binding.searchCard
