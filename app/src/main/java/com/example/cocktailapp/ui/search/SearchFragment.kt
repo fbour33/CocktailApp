@@ -1,17 +1,16 @@
 package com.example.cocktailapp.ui.search
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cocktailapp.core.model.ApiUrls
-import com.example.cocktailapp.core.model.DrinksResponse
+import com.example.cocktailapp.core.model.Drink
 import com.example.cocktailapp.core.service.SearchDrinkFetcher
 import com.example.cocktailapp.databinding.FragmentSearchBinding
-import com.google.android.material.textfield.TextInputEditText
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -27,7 +26,6 @@ class SearchFragment : Fragment() {
 
     private lateinit var binding: FragmentSearchBinding
     private val searchService = SearchDrinkFetcher()
-    private lateinit var searchEditText: TextInputEditText
     private lateinit var searchAdapter: SearchAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,35 +41,31 @@ class SearchFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentSearchBinding.inflate(inflater, container, false)
-        searchEditText = (binding.textInputLayout.editText as TextInputEditText?)!!
-        search(searchEditText.text.toString())
 
-        searchEditText.addTextChangedListener { editable ->
-            val query = editable.toString()
-            search(query)
-        }
+        search("")
 
         return binding.root
     }
-
-    private fun search(query: String){
+    fun search(query: String){
+        Log.i("SEARCH", "We search a new data: $query")
         binding.noResultView.visibility = View.INVISIBLE
         binding.cocktailRecyclerView.visibility = View.INVISIBLE
         binding.circularProgressIndicator.visibility = View.VISIBLE
         searchService.fetchData(ApiUrls.URL_COCKTAIL_SEARCH, query) { drinksResponse ->
             drinksResponse?.let {
-                updateUI(it)
+                updateUI(it.drinks)
             }
         }
     }
 
-    private fun updateUI(drinksResponse: DrinksResponse) {
+    private fun updateUI(drinks: List<Drink>?) {
         activity?.runOnUiThread {
-            searchAdapter = SearchAdapter(drinksResponse)
+            val drinkList = drinks?: emptyList()
+            searchAdapter = SearchAdapter(drinkList)
             binding.cocktailRecyclerView.adapter = searchAdapter
             binding.cocktailRecyclerView.layoutManager = LinearLayoutManager(context)
             binding.circularProgressIndicator.visibility = View.GONE
-            if (drinksResponse.drinks?.isEmpty() != false){
+            if (drinkList.isEmpty()){
                 binding.noResultView.visibility = View.VISIBLE
             }else{
                 binding.cocktailRecyclerView.visibility = View.VISIBLE

@@ -41,7 +41,7 @@ class ActivityCocktailDetail : AppCompatActivity(), TabLayout.OnTabSelectedListe
     }
 
     private fun search(query: String){
-        searchService.fetchData(ApiUrls.URL_COCKTAIL_DETAIL, query, true) { drinksResponse ->
+        searchService.fetchData(ApiUrls.URL_COCKTAIL_DETAIL, query) { drinksResponse ->
             drinksResponse?.let {
                 updateUI(it)
             }
