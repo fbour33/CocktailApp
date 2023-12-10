@@ -29,26 +29,25 @@ class MainActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener {
         toolbar = binding.toolbar
         setSupportActionBar(toolbar)
         actionBar?.setDisplayShowTitleEnabled(false)
-
         tabLayout.addOnTabSelectedListener(this)
         displayTab(SearchFragment.newInstance("", ""), "Search")
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.top_app_bar, menu)
-
+        binding.toolbar.title = "Search" // Avoid to have CocktailApp
         val searchView = binding.toolbar.menu.findItem(R.id.search_top_bar_button)?.actionView as SearchView
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
             android.widget.SearchView.OnQueryTextListener {
 
             override fun onQueryTextChange(qString: String): Boolean {
-                Log.i("SEARCH", "Texte changed to: $qString")
+                val fragment = supportFragmentManager.findFragmentById(binding.fragmentContainer.id) as SearchFragment
+                fragment.search(qString)
                 return true
             }
             override fun onQueryTextSubmit(qString: String): Boolean {
                 searchView.clearFocus()
-                Log.i("SEARCH", "Texte Query for: $qString")
                 return true
             }
         })
@@ -60,7 +59,7 @@ class MainActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener {
         binding.toolbar.title = headerTitle
         supportFragmentManager
             .beginTransaction()
-            .replace(binding.fragmentContainer.id, tabFragment)
+            .replace(binding.fragmentContainer.id, tabFragment, headerTitle)
             .commit()
     }
 
