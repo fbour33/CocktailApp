@@ -9,4 +9,8 @@
     <string name="ingredient_option">Ingredients</string>
     <string name="instruction_option">Instructions</string>
     <string name="search_button_description">Search cocktail</string>
+    <string name="cocktail_detail_category">Category: %1$s</string>
+    <string name="cocktail_detail_glass">Served in %1$s</string>
+    <string name="cocktail_detail_no_tag">No tag</string>
+    <string name="detail_back_title">Go Back</string>
 </resources>
