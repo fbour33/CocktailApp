@@ -30,23 +30,24 @@ class MainActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener {
         setSupportActionBar(toolbar)
         actionBar?.setDisplayShowTitleEnabled(false)
         tabLayout.addOnTabSelectedListener(this)
-        displayTab(SearchFragment.newInstance("", ""), "Search")
+        displayTab(SearchFragment.newInstance(), R.string.search_text)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.top_app_bar, menu)
-        binding.toolbar.title = "Search" // Avoid to have CocktailApp
-        val searchView = binding.toolbar.menu.findItem(R.id.search_top_bar_button)?.actionView as SearchView
+        val searchView =
+            binding.toolbar.menu.findItem(R.id.search_top_bar_button)?.actionView as SearchView
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
             android.widget.SearchView.OnQueryTextListener {
 
             override fun onQueryTextChange(qString: String): Boolean {
-                val fragment = supportFragmentManager.findFragmentById(binding.fragmentContainer.id) as SearchFragment
-                fragment.search(qString)
+                executeQuery(qString)
                 return true
             }
+
             override fun onQueryTextSubmit(qString: String): Boolean {
+                executeQuery(qString)
                 searchView.clearFocus()
                 return true
             }
@@ -55,19 +56,31 @@ class MainActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener {
         return true
     }
 
-    private fun displayTab(tabFragment: Fragment, headerTitle: String){
-        binding.toolbar.title = headerTitle
-        supportFragmentManager
-            .beginTransaction()
-            .replace(binding.fragmentContainer.id, tabFragment, headerTitle)
-            .commit()
+    private fun executeQuery(query: String) {
+        val fragment = supportFragmentManager.findFragmentById(binding.fragmentContainer.id)
+        if (fragment is SearchFragment) {
+            fragment.search(query)
+        } else {
+            displayTab(SearchFragment.newInstance(), R.string.search_text)
+            supportFragmentManager.executePendingTransactions()
+            binding.bottomBar.getTabAt(0)?.select()
+            val newFragment =
+                supportFragmentManager.findFragmentById(binding.fragmentContainer.id) as SearchFragment
+            newFragment.search(query)
+        }
     }
 
-    private fun onTabChange(tab: TabLayout.Tab){
-        when(tab.position){
-            0 -> displayTab(SearchFragment.newInstance("", ""), "Search")
-            1 -> displayTab(CategoriesFragment.newInstance("", ""), "Categories")
-            2 -> displayTab(IngredientsFragment.newInstance("", ""), "Ingredients")
+    private fun displayTab(tabFragment: Fragment, titleId: Int) {
+        binding.toolbar.title = getString(titleId)
+        supportFragmentManager.beginTransaction()
+            .replace(binding.fragmentContainer.id, tabFragment, getString(titleId)).commit()
+    }
+
+    private fun onTabChange(tab: TabLayout.Tab) {
+        when (tab.position) {
+            0 -> displayTab(SearchFragment.newInstance(), R.string.search_text)
+            1 -> displayTab(CategoriesFragment.newInstance(), R.string.categories_text)
+            2 -> displayTab(IngredientsFragment.newInstance(), R.string.ingredients_text)
         }
     }
 
@@ -81,6 +94,7 @@ class MainActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener {
     override fun onTabUnselected(tab: TabLayout.Tab?) {
         Log.i("Tab", "Unselected")
     }
+
     override fun onTabReselected(tab: TabLayout.Tab?) {
         Log.i("Tab", "Reselected")
         tab?.let {
