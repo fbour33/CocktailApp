@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cocktailapp.R
 import com.example.cocktailapp.core.model.ApiUrls
@@ -80,7 +81,8 @@ class CocktailFragment : Fragment() {
             val drinkList = drinks?: emptyList()
             cocktailAdapter = SearchAdapter(drinkList)
             binding.cocktailRecyclerView.adapter = cocktailAdapter
-            binding.cocktailRecyclerView.layoutManager = LinearLayoutManager(context)
+            val gridLayoutManager = GridLayoutManager(context, 2)
+            binding.cocktailRecyclerView.layoutManager = gridLayoutManager
             binding.circularProgressIndicator.visibility = View.GONE
             if (drinkList.isEmpty()){
                 binding.noResultView.visibility = View.VISIBLE
