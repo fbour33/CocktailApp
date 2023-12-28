@@ -1,8 +1,10 @@
 package com.example.cocktailapp.ui.ingredients
 
+import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,13 +12,18 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cocktailapp.R
+import com.example.cocktailapp.core.model.ApiUrls
 import com.example.cocktailapp.core.model.CategoriesResponse
+import com.example.cocktailapp.core.model.DrinksResponse
 import com.example.cocktailapp.core.model.IngredientsResponse
 import com.example.cocktailapp.core.service.CategoriesFetcher
 import com.example.cocktailapp.core.service.IngredientsFetcher
+import com.example.cocktailapp.core.service.SearchDrinkFetcher
 import com.example.cocktailapp.databinding.FragmentCategoriesBinding
 import com.example.cocktailapp.databinding.FragmentIngredientsBinding
 import com.example.cocktailapp.ui.categories.CategoryAdapter
+import com.example.cocktailapp.ui.categories.CategoryListener
+import com.example.cocktailapp.ui.cocktails.FragmentType
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -34,8 +41,17 @@ class IngredientsFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var adapter: IngredientsAdapter
-    private lateinit var recyclerView: RecyclerView
-    private val categoriesFetcher: IngredientsFetcher = IngredientsFetcher()
+    private lateinit var listener: CategoryListener
+    private val categoriesFetcher = SearchDrinkFetcher()
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is CategoryListener) {
+            listener = context
+        } else {
+            throw RuntimeException("Must implement AnswersListener")
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +60,7 @@ class IngredientsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentIngredientsBinding.inflate(inflater, container, false)
         return binding.root
@@ -52,26 +68,27 @@ class IngredientsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        adapter = IngredientsAdapter(IngredientsResponse())
         binding.recyclerViewIngredient.visibility = View.INVISIBLE
         binding.circularProgressIndicator.visibility = View.VISIBLE
-        categoriesFetcher.fetchData() { ingredientResponse ->
+        categoriesFetcher.fetchData(ApiUrls.URL_INGREDIENT_LIST) { ingredientResponse ->
             ingredientResponse?.let{
                 updateIngredient(it)
             }
         }
     }
 
-    private fun updateIngredient(ingredientsResponse: IngredientsResponse){
+    private fun updateIngredient(ingredientsResponse: DrinksResponse){
         activity?.runOnUiThread {
-            adapter = IngredientsAdapter(ingredientsResponse)
+            adapter = IngredientsAdapter(ingredientsResponse) { ingredientName ->
+                Log.d("CARD", "Ingredient $ingredientName clicked")
+                listener.onSelected(ingredientName, FragmentType.INGREDIENT)
+            }
             binding.recyclerViewIngredient.adapter = adapter
             binding.recyclerViewIngredient.layoutManager = LinearLayoutManager(context)
             binding.circularProgressIndicator.visibility = View.GONE
-            val isCategoryListNotEmpty = ingredientsResponse.ingredients?.isNotEmpty() ?: false
+            val isCategoryListNotEmpty = ingredientsResponse.drinks?.isNotEmpty() ?: false
             binding.recyclerViewIngredient.visibility =
                 if (isCategoryListNotEmpty) View.VISIBLE else View.INVISIBLE
-
         }
     }
 
