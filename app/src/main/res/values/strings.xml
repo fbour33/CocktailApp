@@ -8,10 +8,5 @@
     <string name="no_result_message">No Result Found</string>
     <string name="ingredient_option">Ingredients</string>
     <string name="instruction_option">Instructions</string>
-<<<<<<< HEAD
     <string name="search_button_description">Search cocktail</string>
-=======
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
->>>>>>> feature/listToCocktail
 </resources>

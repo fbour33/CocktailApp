@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cocktailapp.R
 import com.example.cocktailapp.core.model.ApiUrls
+import com.example.cocktailapp.core.model.Drink
 import com.example.cocktailapp.core.model.DrinksResponse
 import com.example.cocktailapp.core.service.SearchDrinkFetcher
 import com.example.cocktailapp.databinding.FragmentCategoriesBinding
@@ -68,19 +69,20 @@ class CocktailFragment : Fragment() {
         categoryName?.let { it ->
             cocktailService.fetchData(callURL, it) { drinksResponse ->
                 drinksResponse?.let {
-                    updateUI(it)
+                    it.drinks?.let { it1 -> updateUI(it1) }
                 }
             }
         }
     }
 
-    private fun updateUI(drinksResponse: DrinksResponse) {
+    private fun updateUI(drinks: List<Drink>) {
         activity?.runOnUiThread {
-            cocktailAdapter = SearchAdapter(drinksResponse)
+            val drinkList = drinks?: emptyList()
+            cocktailAdapter = SearchAdapter(drinkList)
             binding.cocktailRecyclerView.adapter = cocktailAdapter
             binding.cocktailRecyclerView.layoutManager = LinearLayoutManager(context)
             binding.circularProgressIndicator.visibility = View.GONE
-            if (drinksResponse.drinks?.isEmpty() != false){
+            if (drinkList.isEmpty()){
                 binding.noResultView.visibility = View.VISIBLE
             }else{
                 binding.cocktailRecyclerView.visibility = View.VISIBLE
