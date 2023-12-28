@@ -18,6 +18,7 @@ import com.example.cocktailapp.core.service.CategoriesFetcher
 import com.example.cocktailapp.core.service.SearchDrinkFetcher
 import com.example.cocktailapp.databinding.FragmentCategoriesBinding
 import com.example.cocktailapp.ui.cocktails.CocktailFragment
+import com.example.cocktailapp.ui.cocktails.FragmentType
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -32,7 +33,7 @@ private const val ARG_PARAM2 = "param2"
  */
 
 interface CategoryListener {
-    fun onSelected(categoryName: String)
+    fun onSelected(categoryName: String, fragmentName: FragmentType)
 }
 
 class CategoriesFragment : Fragment() {
@@ -81,7 +82,7 @@ class CategoriesFragment : Fragment() {
         activity?.runOnUiThread {
             adapter = CategoryAdapter(categoryResponse) { categoryName ->
                 Log.d("CARD", "Category $categoryName clicked")
-                listener.onSelected(categoryName)
+                listener.onSelected(categoryName, FragmentType.CATEGORY)
             }
             binding.recyclerViewCategory.adapter = adapter
             binding.recyclerViewCategory.layoutManager = LinearLayoutManager(context)

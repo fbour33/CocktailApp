@@ -23,6 +23,7 @@ import com.example.cocktailapp.databinding.FragmentCategoriesBinding
 import com.example.cocktailapp.databinding.FragmentIngredientsBinding
 import com.example.cocktailapp.ui.categories.CategoryAdapter
 import com.example.cocktailapp.ui.categories.CategoryListener
+import com.example.cocktailapp.ui.cocktails.FragmentType
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -80,7 +81,7 @@ class IngredientsFragment : Fragment() {
         activity?.runOnUiThread {
             adapter = IngredientsAdapter(ingredientsResponse) { ingredientName ->
                 Log.d("CARD", "Ingredient $ingredientName clicked")
-                listener.onSelected(ingredientName)
+                listener.onSelected(ingredientName, FragmentType.INGREDIENT)
             }
             binding.recyclerViewIngredient.adapter = adapter
             binding.recyclerViewIngredient.layoutManager = LinearLayoutManager(context)

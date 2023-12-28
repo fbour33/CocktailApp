@@ -8,6 +8,7 @@ import com.example.cocktailapp.databinding.ActivityMainBinding
 import com.example.cocktailapp.ui.categories.CategoriesFragment
 import com.example.cocktailapp.ui.categories.CategoryListener
 import com.example.cocktailapp.ui.cocktails.CocktailFragment
+import com.example.cocktailapp.ui.cocktails.FragmentType
 import com.example.cocktailapp.ui.ingredients.IngredientsFragment
 import com.example.cocktailapp.ui.search.SearchFragment
 import com.google.android.material.tabs.TabLayout
@@ -58,8 +59,8 @@ class MainActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, Categ
         }
     }
 
-    override fun onSelected(categoryName: String) {
-        val cocktailFragment = CocktailFragment.newInstance(categoryName)
+    override fun onSelected(categoryName: String, fragmentName: FragmentType) {
+        val cocktailFragment = CocktailFragment.newInstance(categoryName, fragmentName)
 
         supportFragmentManager.beginTransaction()
             .replace(binding.fragmentContainer.id, cocktailFragment)

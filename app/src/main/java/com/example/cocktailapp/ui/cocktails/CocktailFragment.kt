@@ -1,6 +1,7 @@
 package com.example.cocktailapp.ui.cocktails
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,10 +14,12 @@ import com.example.cocktailapp.core.service.SearchDrinkFetcher
 import com.example.cocktailapp.databinding.FragmentCategoriesBinding
 import com.example.cocktailapp.databinding.FragmentCocktailBinding
 import com.example.cocktailapp.ui.search.SearchAdapter
+import java.lang.IllegalArgumentException
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val CATEGORY_NAME = "CATEGORY_NAME"
+private const val FRAGMENT_NAME = "FRAGMENT_NAME"
 
 /**
  * A simple [Fragment] subclass.
@@ -25,6 +28,8 @@ private const val CATEGORY_NAME = "CATEGORY_NAME"
  */
 class CocktailFragment : Fragment() {
     private var categoryName: String? = null
+    private var fragmentName: FragmentType? = null
+
     private val cocktailService = SearchDrinkFetcher()
     private lateinit var cocktailAdapter: SearchAdapter
 
@@ -35,6 +40,11 @@ class CocktailFragment : Fragment() {
         super.onCreate(savedInstanceState)
         arguments?.let {
             categoryName = it.getString(CATEGORY_NAME)
+            try {
+                fragmentName = it.getString(FRAGMENT_NAME)?.let { it1 -> FragmentType.valueOf(it1) }
+            }catch (e : IllegalArgumentException){
+                Log.e("Instantiate error", e.toString())
+            }
         }
     }
 
@@ -52,8 +62,11 @@ class CocktailFragment : Fragment() {
         binding.noResultView.visibility = View.INVISIBLE
         binding.cocktailRecyclerView.visibility = View.INVISIBLE
         binding.circularProgressIndicator.visibility = View.VISIBLE
+        var callURL: ApiUrls = ApiUrls.URL_COCKTAIL_FILTER_INGREDIENT
+        if(fragmentName == FragmentType.CATEGORY)
+            callURL = ApiUrls.URL_COCKTAIL_FILTER_CATEGORY
         categoryName?.let { it ->
-            cocktailService.fetchData(ApiUrls.URL_COCKTAIL_SEARCH, it) { drinksResponse ->
+            cocktailService.fetchData(callURL, it) { drinksResponse ->
                 drinksResponse?.let {
                     updateUI(it)
                 }
@@ -77,10 +90,11 @@ class CocktailFragment : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance(categoryName: String) =
+        fun newInstance(categoryName: String, fragmentName: FragmentType) =
             CocktailFragment().apply {
                 arguments = Bundle().apply {
                     putString(CATEGORY_NAME, categoryName)
+                    putString(FRAGMENT_NAME, fragmentName.name)
                 }
             }
     }
