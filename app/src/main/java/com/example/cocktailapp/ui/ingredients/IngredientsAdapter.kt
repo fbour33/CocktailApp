@@ -7,6 +7,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cocktailapp.core.model.CategoriesResponse
 import com.example.cocktailapp.core.model.Category
+import com.example.cocktailapp.core.model.Drink
+import com.example.cocktailapp.core.model.DrinksResponse
 import com.example.cocktailapp.core.model.Ingredient
 import com.example.cocktailapp.core.model.IngredientsResponse
 import com.example.cocktailapp.databinding.ItemListBinding
@@ -16,7 +18,10 @@ class IngredientViewHolder(private val binding: ItemListBinding) : RecyclerView.
     val titleTextView: TextView = binding.listTitleTextview
     val iconView: ImageView = binding.listIcon
 }
-class IngredientsAdapter(private var ingredientList: IngredientsResponse): RecyclerView.Adapter<IngredientViewHolder>() {
+class IngredientsAdapter(
+    private var ingredientList: DrinksResponse,
+    private val onItemClick: (String) -> Unit
+): RecyclerView.Adapter<IngredientViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IngredientViewHolder {
         val binding = ItemListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -24,19 +29,18 @@ class IngredientsAdapter(private var ingredientList: IngredientsResponse): Recyc
     }
 
     override fun onBindViewHolder(holder: IngredientViewHolder, position: Int) {
-        val ingredient: Ingredient? = ingredientList.ingredients?.get(position)
-        holder.titleTextView.text = ingredient?.name ?: ""
+        val ingredient: Drink? = ingredientList.drinks?.get(position)
+        holder.titleTextView.text = ingredient?.ingredient1 ?: ""
         var resId: Int = holder.iconView.context.resources.getIdentifier("@drawable/lemon", null, holder.iconView.context.packageName)
         holder.iconView.setImageResource(resId)
+        holder.itemView.setOnClickListener {
+            val ingredientName = ingredient?.ingredient1 ?: ""
+            onItemClick(ingredientName) // Appel du callback avec le nom de la catégorie
+        }
     }
 
     override fun getItemCount(): Int {
-        return ingredientList.ingredients?.count() ?: 0
-    }
-
-    fun updateData(newIngredients: IngredientsResponse) {
-        ingredientList =  newIngredients
-        notifyDataSetChanged() // Actualise la vue pour refléter les nouvelles données
+        return ingredientList.drinks?.count() ?: 0
     }
 
 }
