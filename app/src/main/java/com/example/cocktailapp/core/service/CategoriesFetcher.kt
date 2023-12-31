@@ -22,12 +22,12 @@ class CategoriesFetcher {
 
         client.newCall(request).enqueue(object: Callback {
             override fun onFailure(call: Call, e: IOException) {
-                Log.e("OKHTTP", e.localizedMessage)
+                e.localizedMessage?.let { Log.e("OKHTTP", it) }
                 callback(null)
             }
 
             override fun onResponse(call: Call, response: Response) {
-                Log.i("OKHTTP", "Search data correctly fetch")
+                Log.d("OKHTTP", "Search data correctly fetch")
                 val gson = Gson()
                 val responseData = response.body?.string()
                 callback(gson.fromJson(responseData, CategoriesResponse::class.java))

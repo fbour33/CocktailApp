@@ -29,7 +29,7 @@ class SearchAdapter(private val cocktailList: List<Drink>) : RecyclerView.Adapte
         holder.titleTextView.text = drink.title
         Picasso.get().load(drink.imageURL).into(holder.imageView)
         holder.cardContainer.setOnClickListener {
-            Log.d("CARD", "Cocktail ${drink.title} clicked" )
+            Log.d("CARD", "Cocktail ${drink.id} clicked" )
             val context = holder.cardContainer.context
             val intent = Intent(context, ActivityCocktailDetail::class.java)
             intent.putExtra("cocktail_id", drink.id)

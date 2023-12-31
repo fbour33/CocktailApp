@@ -2,7 +2,6 @@ package com.example.cocktailapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
@@ -29,9 +28,12 @@ class MainActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener {
         toolbar = binding.toolbar
         setSupportActionBar(toolbar)
         actionBar?.setDisplayShowTitleEnabled(false)
+
         tabLayout.addOnTabSelectedListener(this)
         displayTab(SearchFragment.newInstance(), R.string.search_text)
     }
+
+
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.top_app_bar, menu)
@@ -85,18 +87,15 @@ class MainActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener {
     }
 
     override fun onTabSelected(tab: TabLayout.Tab?) {
-        Log.i("Tab", "Selected")
         tab?.let {
             onTabChange(it)
         }
     }
 
     override fun onTabUnselected(tab: TabLayout.Tab?) {
-        Log.i("Tab", "Unselected")
     }
 
     override fun onTabReselected(tab: TabLayout.Tab?) {
-        Log.i("Tab", "Reselected")
         tab?.let {
             onTabChange(it)
         }

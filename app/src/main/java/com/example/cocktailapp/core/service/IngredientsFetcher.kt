@@ -1,7 +1,6 @@
 package com.example.cocktailapp.core.service
 
 import android.util.Log
-import com.example.cocktailapp.core.model.CategoriesResponse
 import com.example.cocktailapp.core.model.IngredientsResponse
 import com.google.gson.Gson
 import okhttp3.Call
@@ -22,12 +21,12 @@ class IngredientsFetcher {
 
         client.newCall(request).enqueue(object: Callback {
             override fun onFailure(call: Call, e: IOException) {
-                Log.e("OKHTTP", e.localizedMessage)
+                e.localizedMessage?.let { Log.e("OKHTTP", it) }
                 callback(null)
             }
 
             override fun onResponse(call: Call, response: Response) {
-                Log.i("OKHTTP", "Search data correctly fetch")
+                Log.d("OKHTTP", "Search data correctly fetch")
                 val gson = Gson()
                 val responseData = response.body?.string()
                 callback(gson.fromJson(responseData, IngredientsResponse::class.java))

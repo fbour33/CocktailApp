@@ -27,7 +27,7 @@ class SearchDrinkFetcher {
                 val gson = Gson()
                 val responseData = gson.fromJson(response.body?.string(), DrinksResponse::class.java)
                 callback(responseData)
-                Log.i("OKHTTP", "Search data correctly fetch ${responseData.drinks?.count()}")
+                Log.d("OKHTTP", "Search data correctly fetch ${responseData.drinks?.count()}")
             }
 
         })

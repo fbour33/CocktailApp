@@ -1,7 +1,6 @@
 package com.example.cocktailapp.ui.search
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -36,7 +35,6 @@ class SearchFragment : Fragment() {
     }
 
     fun search(query: String) {
-        Log.i("SEARCH", "We search a new data: $query")
         binding.noResultView.visibility = View.INVISIBLE
         binding.cocktailRecyclerView.visibility = View.INVISIBLE
         binding.circularProgressIndicator.visibility = View.VISIBLE
