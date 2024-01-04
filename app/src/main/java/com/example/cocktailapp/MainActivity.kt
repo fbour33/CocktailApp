@@ -11,6 +11,7 @@ import com.example.cocktailapp.ui.categories.CategoriesFragment
 import com.example.cocktailapp.ui.categories.CategoryListener
 import com.example.cocktailapp.ui.cocktails.CocktailFragment
 import com.example.cocktailapp.ui.cocktails.FragmentType
+import com.example.cocktailapp.ui.favorites.FavoritesFragment
 import com.example.cocktailapp.ui.ingredients.IngredientsFragment
 import com.example.cocktailapp.ui.search.SearchFragment
 import com.google.android.material.tabs.TabLayout
@@ -86,6 +87,7 @@ class MainActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, Categ
             0 -> displayTab(SearchFragment.newInstance(), R.string.search_text)
             1 -> displayTab(CategoriesFragment.newInstance(), R.string.categories_text)
             2 -> displayTab(IngredientsFragment.newInstance(), R.string.ingredients_text)
+            3 -> displayTab(FavoritesFragment.newInstance(), R.string.favorites_text)
         }
     }
 

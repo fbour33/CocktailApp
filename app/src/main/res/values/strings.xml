@@ -14,4 +14,7 @@
     <string name="cocktail_detail_glass">Served in %1$s</string>
     <string name="cocktail_detail_no_tag">No tag</string>
     <string name="detail_back_title">Go Back</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="favorites_text">Fav</string>
 </resources>
