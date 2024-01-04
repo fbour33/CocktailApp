@@ -6,17 +6,20 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.datastore.preferences.core.Preferences
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.cocktailapp.DataStoreUtils
 import com.example.cocktailapp.core.model.ApiUrls
 import com.example.cocktailapp.core.model.Drink
+import com.example.cocktailapp.core.model.DrinksResponse
 import com.example.cocktailapp.core.service.SearchDrinkFetcher
 import com.example.cocktailapp.databinding.FragmentSearchBinding
 import com.example.cocktailapp.ui.search.SearchAdapter
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
+import java.util.concurrent.CompletableFuture
 
 /**
  * A simple [Fragment] subclass.
@@ -28,6 +31,7 @@ class FavoritesFragment : Fragment() {
     private lateinit var binding: FragmentSearchBinding
     private val drinkFetcher = SearchDrinkFetcher()
     private val drinksTemp = mutableListOf<Drink>()
+    private var allFavoritesLength: Int = 0
     private lateinit var searchAdapter: SearchAdapter
 
 
@@ -41,36 +45,67 @@ class FavoritesFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentSearchBinding.inflate(inflater, container, false)
+        binding.circularProgressIndicator.visibility = View.VISIBLE
+        binding.noResultView.visibility = View.INVISIBLE
+        binding.cocktailRecyclerView.visibility = View.INVISIBLE
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    private fun loadData(allFavorites: Set<Preferences.Key<*>>?){
+        binding.circularProgressIndicator.visibility = View.VISIBLE
+        allFavorites?.let {it ->
+            val drinksTemp = it.map { key ->
+                drinkFetcher.fetchDataWithWaiting(ApiUrls.URL_COCKTAIL_DETAIL, key.toString()).thenApply { response ->
+                    response?.drinks?.get(0)
+                }
+            }
+            val allFutures = CompletableFuture.allOf(*drinksTemp.toTypedArray())
+            allFutures.join()
+            val drinks = drinksTemp.mapNotNull { it.get() }
+            updateUI(drinks)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
         val applicationContext = requireContext().applicationContext
         lifecycleScope.launch {
             val allFavorites = DataStoreUtils.getAllFavorites(applicationContext)
-            Log.d("FAVORITES", "All favorites: $allFavorites")
-            //TODO HAD A VIEW.VISIBLE OF A ANY FAV YET
-            allFavorites?.let {
-                val deferreds = it.map { key ->
-                    async {
-                        Log.d("FAVORITES", "Favorite key : $key")
-                        drinkFetcher.fetchData(ApiUrls.URL_COCKTAIL_DETAIL, key.toString()) { drinkResponse ->
-                            drinkResponse?.drinks?.get(0)?.let { it1 -> drinksTemp.add(it1) }
-                            Log.d("DRINKS", "drink added to drinksTemp $drinksTemp")
-                        }
-                    }
-                }
-                deferreds.awaitAll()
-                updateUI(drinksTemp.toList())
+            if (allFavorites != null) {
+                if(allFavorites.size != allFavoritesLength)
+                    allFavoritesLength = allFavorites.size
+                loadData(allFavorites)
             }
         }
     }
 
+
+    //override fun onResume() {
+    //    super.onResume()
+    //    binding.noResultView.visibility = View.INVISIBLE
+    //    binding.cocktailRecyclerView.visibility = View.INVISIBLE
+    //    binding.circularProgressIndicator.visibility = View.VISIBLE
+    //    val applicationContext = requireContext().applicationContext
+    //    lifecycleScope.launch {
+    //        val allFavorites = DataStoreUtils.getAllFavorites(applicationContext)
+    //        Log.d("FAVORITES", "All favorites: $allFavorites")
+    //        allFavorites?.let {it ->
+    //            val drinksTemp = it.map { key ->
+    //                drinkFetcher.fetchDataWithWaiting(ApiUrls.URL_COCKTAIL_DETAIL, key.toString()).thenApply { response ->
+    //                    response?.drinks?.get(0)
+    //                }
+    //            }
+    //            val allFutures = CompletableFuture.allOf(*drinksTemp.toTypedArray())
+    //            allFutures.join()
+    //            val drinks = drinksTemp.mapNotNull { it.get() }
+    //            updateUI(drinks)
+    //        }
+    //    }
+    //}
+
     private fun updateUI(drinks: List<Drink>?) {
         activity?.runOnUiThread {
             val drinkList = drinks ?: emptyList()
-            Log.d("DRINKS UI", "drinkList : $drinkList")
             searchAdapter = SearchAdapter(drinkList)
             binding.cocktailRecyclerView.adapter = searchAdapter
             val gridLayoutManager = GridLayoutManager(context, 2)
