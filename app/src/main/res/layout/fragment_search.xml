@@ -38,5 +38,16 @@
         android:text="@string/no_result_message"
         android:layout_margin="12dp"/>
 
+    <TextView
+        android:id="@+id/no_fav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="@string/no_favorite_cocktail_yet"
+        android:layout_margin="12dp"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
