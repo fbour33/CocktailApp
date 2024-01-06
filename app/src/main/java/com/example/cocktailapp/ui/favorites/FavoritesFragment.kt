@@ -1,25 +1,21 @@
 package com.example.cocktailapp.ui.favorites
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.datastore.preferences.core.Preferences
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.cocktailapp.DataStoreUtils
 import com.example.cocktailapp.core.model.ApiUrls
 import com.example.cocktailapp.core.model.Drink
-import com.example.cocktailapp.core.model.DrinksResponse
 import com.example.cocktailapp.core.service.SearchDrinkFetcher
 import com.example.cocktailapp.databinding.FragmentSearchBinding
 import com.example.cocktailapp.ui.search.SearchAdapter
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
-import java.util.concurrent.CompletableFuture
 
 /**
  * A simple [Fragment] subclass.
@@ -30,10 +26,8 @@ class FavoritesFragment : Fragment() {
 
     private lateinit var binding: FragmentSearchBinding
     private val drinkFetcher = SearchDrinkFetcher()
-    private val drinksTemp = mutableListOf<Drink>()
     private var allFavoritesLength: Int = 0
     private lateinit var searchAdapter: SearchAdapter
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,19 +46,20 @@ class FavoritesFragment : Fragment() {
     }
 
     private fun loadData(allFavorites: Set<Preferences.Key<*>>?){
-        binding.circularProgressIndicator.visibility = View.VISIBLE
-        allFavorites?.let {it ->
-            val drinksTemp = it.map { key ->
-                drinkFetcher.fetchDataWithWaiting(ApiUrls.URL_COCKTAIL_DETAIL, key.toString()).thenApply { response ->
-                    response?.drinks?.get(0)
-                }
-            }
-            val allFutures = CompletableFuture.allOf(*drinksTemp.toTypedArray())
-            allFutures.join()
-            val drinks = drinksTemp.mapNotNull { it.get() }
+        lifecycleScope.launch {
+            binding.circularProgressIndicator.visibility = View.VISIBLE
+            val drinks = allFavorites?.mapNotNull { key ->
+                fetchDrink(key)
+            }.orEmpty()
             updateUI(drinks)
         }
     }
+
+    private suspend fun fetchDrink(key: Preferences.Key<*>): Drink? {
+        val drinksResponse = drinkFetcher.fetchDataWithWaiting(ApiUrls.URL_COCKTAIL_DETAIL, key.toString())
+        return drinksResponse?.drinks?.firstOrNull()
+    }
+
 
     override fun onResume() {
         super.onResume()
@@ -78,30 +73,6 @@ class FavoritesFragment : Fragment() {
             }
         }
     }
-
-
-    //override fun onResume() {
-    //    super.onResume()
-    //    binding.noResultView.visibility = View.INVISIBLE
-    //    binding.cocktailRecyclerView.visibility = View.INVISIBLE
-    //    binding.circularProgressIndicator.visibility = View.VISIBLE
-    //    val applicationContext = requireContext().applicationContext
-    //    lifecycleScope.launch {
-    //        val allFavorites = DataStoreUtils.getAllFavorites(applicationContext)
-    //        Log.d("FAVORITES", "All favorites: $allFavorites")
-    //        allFavorites?.let {it ->
-    //            val drinksTemp = it.map { key ->
-    //                drinkFetcher.fetchDataWithWaiting(ApiUrls.URL_COCKTAIL_DETAIL, key.toString()).thenApply { response ->
-    //                    response?.drinks?.get(0)
-    //                }
-    //            }
-    //            val allFutures = CompletableFuture.allOf(*drinksTemp.toTypedArray())
-    //            allFutures.join()
-    //            val drinks = drinksTemp.mapNotNull { it.get() }
-    //            updateUI(drinks)
-    //        }
-    //    }
-    //}
 
     private fun updateUI(drinks: List<Drink>?) {
         activity?.runOnUiThread {
@@ -121,9 +92,6 @@ class FavoritesFragment : Fragment() {
 
 
     companion object {
-        /**
-         * @return A new instance of fragment CategoriesFragment.
-         */
         @JvmStatic
         fun newInstance() = FavoritesFragment()
     }
