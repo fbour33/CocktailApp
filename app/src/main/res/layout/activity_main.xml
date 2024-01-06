@@ -44,27 +44,27 @@
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/search_text" />
+            android:icon="@drawable/baseline_search_24" />
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/categories_text" />
+            android:icon="@drawable/category_icon" />
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/ingredients_text" />
+            android:icon="@drawable/lemon" />
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/random_text" />
+            android:icon="@drawable/random_icon" />
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/favorites_text" />
+            android:icon="@drawable/baseline_favorite_24" />
 
     </com.google.android.material.tabs.TabLayout>
 
