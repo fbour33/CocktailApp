@@ -3,7 +3,6 @@
     <string name="search_text">Search</string>
     <string name="categories_text">Categories</string>
     <string name="ingredients_text">Ingredients</string>
-    <string name="search_bar_hint">Search</string>
     <string name="random_text">Random</string>
     <string name="random_cocktail_button">Get a random cocktail</string>
     <string name="image_description">image description</string>
@@ -15,5 +14,4 @@
     <string name="cocktail_detail_category">Category: %1$s</string>
     <string name="cocktail_detail_glass">Served in %1$s</string>
     <string name="cocktail_detail_no_tag">No tag</string>
-    <string name="detail_back_title">Go Back</string>
 </resources>
