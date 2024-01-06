@@ -39,6 +39,7 @@ class SearchFragment : Fragment() {
         binding.noResultView.visibility = View.INVISIBLE
         binding.cocktailRecyclerView.visibility = View.INVISIBLE
         binding.circularProgressIndicator.visibility = View.VISIBLE
+        binding.noFavView.visibility = View.INVISIBLE
         searchService.fetchData(ApiUrls.URL_COCKTAIL_SEARCH, query) { drinksResponse ->
             drinksResponse?.let {
                 updateUI(it.drinks)

@@ -29,10 +29,6 @@ class FavoritesFragment : Fragment() {
     private var allFavoritesLength: Int = 0
     private lateinit var searchAdapter: SearchAdapter
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -40,6 +36,7 @@ class FavoritesFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentSearchBinding.inflate(inflater, container, false)
         binding.circularProgressIndicator.visibility = View.VISIBLE
+        binding.noFavView.visibility = View.INVISIBLE
         binding.noResultView.visibility = View.INVISIBLE
         binding.cocktailRecyclerView.visibility = View.INVISIBLE
         return binding.root
@@ -83,7 +80,7 @@ class FavoritesFragment : Fragment() {
             binding.cocktailRecyclerView.layoutManager = gridLayoutManager
             binding.circularProgressIndicator.visibility = View.GONE
             if (drinkList.isEmpty()) {
-                binding.noResultView.visibility = View.VISIBLE
+                binding.noFavView.visibility = View.VISIBLE
             } else {
                 binding.cocktailRecyclerView.visibility = View.VISIBLE
             }
