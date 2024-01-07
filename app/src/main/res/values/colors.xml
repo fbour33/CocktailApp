@@ -3,4 +3,21 @@
     <color name="primaryColor">#FDC35E</color> <!--#FCA819 -->
     <color name="secondaryColor">#810C29</color>
     <color name="blue">#9DD9D2</color>
+
+    <color name="primary">#CDDC39</color> <!-- Vert citron vibrant -->
+    <color name="primaryDark">#2E7D32</color> <!-- Vert forêt profond -->
+    <color name="accent">#FF9800</color> <!-- Orange mandarine pour les éléments d'accentuation -->
+    <color name="background_light">#FAFAFA</color> <!-- Gris très clair -->
+    <color name="background_off_white">#FFFAF0</color>
+    <color name="text_primary">#212121</color> <!-- Gris foncé -->
+    <color name="text_secondary">#727272</color>
+    <color name="card_background">#F9FDFC</color>
+
+    <color name="button_amber">#FFC107</color>
+    <color name="button_pressed_green">#D4E157</color>
+    <color name="button_border_green">#C5E1A5</color>
+    <color name="button_text_grey">#37474F</color>
+    <color name="alternate_background">#ECEFF1</color>
+    <color name="highlight_cyan">#B2EBF2</color>
+    <!-- Autres couleurs -->
 </resources>

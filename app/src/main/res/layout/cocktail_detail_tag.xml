@@ -11,15 +11,15 @@
         android:layout_height="wrap_content"
         android:padding="12dp"
         android:layout_margin="8dp"
-        app:cardBackgroundColor="@color/primaryColor"
-        app:strokeColor="@color/secondaryColor">
+        app:cardBackgroundColor="@color/card_background"
+        app:strokeColor="@color/primary">
 
         <TextView
             android:id="@+id/tag_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:textColor="@color/secondaryColor"/>
+            android:padding="8dp"
+            android:textColor="@color/text_primary"/>
 
     </com.google.android.material.card.MaterialCardView>
 

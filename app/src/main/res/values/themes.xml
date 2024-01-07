@@ -3,9 +3,16 @@
     <style name="Base.Theme.CocktailApp" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="maxImageSize">120dp</item>
         <item name="textAppearanceDisplayLarge">?attr/textAppearanceTitleLarge</item>
-
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primaryDark</item>
+        <item name="colorAccent">@color/accent</item>
+        <item name="android:windowBackground">@color/background_light</item>
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:textColorSecondary">@color/text_secondary</item>
     </style>
 
-    <style name="Theme.CocktailApp" parent="Base.Theme.CocktailApp" />
+    <style name="Theme.CocktailApp" parent="Base.Theme.CocktailApp"/>
+
+
 
 </resources>

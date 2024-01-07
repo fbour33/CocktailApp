@@ -4,6 +4,8 @@ import android.util.Log
 import com.example.cocktailapp.core.model.ApiUrls
 import com.example.cocktailapp.core.model.DrinksResponse
 import com.google.gson.Gson
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import okhttp3.*
 import java.io.IOException
 
@@ -32,4 +34,26 @@ class SearchDrinkFetcher {
 
         })
     }
+
+    suspend fun fetchDataWithWaiting(url: ApiUrls, searchText: String = ""): DrinksResponse? {
+        return withContext(Dispatchers.IO) {
+            try {
+                val request = Request.Builder()
+                    .url(url.value + searchText)
+                    .build()
+
+                val response = client.newCall(request).execute()
+                if (response.isSuccessful) {
+                    val responseBody = response.body?.string()
+                    Gson().fromJson(responseBody, DrinksResponse::class.java)
+                } else {
+                    null
+                }
+            } catch (e: Exception) {
+                e.localizedMessage?.let { Log.e("OKHTTP", it) }
+                null
+            }
+        }
+    }
+
 }

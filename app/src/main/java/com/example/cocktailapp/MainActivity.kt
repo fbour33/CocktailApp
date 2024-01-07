@@ -11,6 +11,7 @@ import com.example.cocktailapp.ui.categories.CategoriesFragment
 import com.example.cocktailapp.ui.categories.CategoryListener
 import com.example.cocktailapp.ui.cocktails.CocktailFragment
 import com.example.cocktailapp.ui.cocktails.FragmentType
+import com.example.cocktailapp.ui.favorites.FavoritesFragment
 import com.example.cocktailapp.ui.ingredients.IngredientsFragment
 import com.example.cocktailapp.ui.random.RandomCocktailFragment
 import com.example.cocktailapp.ui.search.SearchFragment
@@ -82,12 +83,19 @@ class MainActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, Categ
             .replace(binding.fragmentContainer.id, tabFragment, getString(titleId)).commit()
     }
 
+    override fun onSupportNavigateUp(): Boolean {
+        // Permet de gérer la flèche de retour
+        // Vous devrez peut-être ajuster cette logique en fonction de votre implémentation spécifique
+        return supportFragmentManager.popBackStackImmediate() || super.onSupportNavigateUp()
+    }
+
     private fun onTabChange(tab: TabLayout.Tab) {
         when (tab.position) {
             0 -> displayTab(SearchFragment.newInstance(), R.string.search_text)
             1 -> displayTab(CategoriesFragment.newInstance(), R.string.categories_text)
             2 -> displayTab(IngredientsFragment.newInstance(), R.string.ingredients_text)
             3 -> displayTab(RandomCocktailFragment.newInstance(), R.string.random_text)
+            4 -> displayTab(FavoritesFragment.newInstance(), R.string.favorites_text)
         }
     }
 

@@ -17,7 +17,6 @@
         android:id="@+id/circular_progress_indicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/blue"
         app:indicatorSize="50dp"
         android:indeterminate="true"
         android:layout_gravity="center"
