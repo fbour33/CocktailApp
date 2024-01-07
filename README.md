@@ -20,16 +20,22 @@ les pages de navigation donc on a choisit de mettre un emplacement de
 fragment et lorsque l'on clique sur un bouton de navigation, cela instancie
 le fragment correspondant.
 
-- **Fragment Recherche**: contient la liste des cocktails reçus par l'API 
+- **Fragment Recherche**: Contient la liste des cocktails reçus par l'API 
 suivant la barre de recherche. Lorsque l'on clique dessus,
 on obtient le détail du cocktail.
 
-- **Fragment Catégories**: contient la liste de toutes les catégories.
+- **Fragment Catégories**: Contient la liste de toutes les catégories.
 Lorsque l'on clique sur une catégorie, on obtient une liste de cocktails 
 de cette catégorie.
 
 - **Fragment Ingrédients**: même principe que pour le fragment catégories
 mais avec les ingrédients.
+
+- **Fragment aléatoires**: Contient un bouton qui fait appel à l'API afin d'obtenir un 
+cocktail aléatoire. Ce bouton renvoie vers la page détail d'un cocktail (voir ci dessous) choisi aléatoirement. 
+On a fait le choix d'avoir qu'un seul bouton sur ce fragment afin de pouvoir choisir
+
+- **Fragment favoris**: Contient la liste des cocktail qui ont été ajouté aux favoris (voir ci dessous). Ce fragment est dynamique, dès qu'un cocktail est supprimé des favoris, il se met à jour pour l'enlever.  
 
 ### Page détails
 
@@ -63,13 +69,16 @@ grâce à la classe FavoriteUtils qui gère le DataStore.
 Si l'on reclique dessus, on le supprime des favoris 
 avec une UI correspondante.
 
-### Fragment de cocktails aléatoire
 
 ## Difficultés rencontrées
 
-- **Thomas**  
+***Thomas***  
+
 Pour ma part le plus difficile a été de bien comprendre comment fonctionne
 Android et toutes les intéractions entre les classes notamment les fragments.  
 Mais une fois que l'on commence à comprendre, il y a beaucoup de documentation
 donc on avance vite et on arrive à créer beaucoup de choses.
-- **Florian**  
+
+***Florian*** 
+
+Pour ma part, le plus difficile a été de comprendre la liason entre les fragments, comment ils intéragissaient entre eux et la façon dont ils pouvaient se partager des informations. Aussi, j'ai eu un peu de mal à réaliser la page de favoris. En effet, on a utilisé des fonctions asynchrones pour mettre à jour l'interface utilisateur, cela marchait bien car toutes nos réponses à l'API étaient une liste de DrinkResponse qui permettait de l'afficher directement. Or pour les cocktails il fallait attendre la fin des appels à l'API pour réccupérer le détail de chaque cocktail avant de les afficher sur l'interface. On a alors un appel qui devient synchrone et qui bloque l'interface utilisateur le temps de la recherche. C'est le fait que l'interface ne se chargait pas avant l'appel synchrone qui a été compliqué à gérer avec les coroutines Kotlin.
