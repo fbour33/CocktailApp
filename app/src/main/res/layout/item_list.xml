@@ -10,8 +10,11 @@
         android:id="@+id/list_card"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="4dp"
+        app:cardBackgroundColor="@color/card_background"
         app:strokeWidth="1dp"
-        app:strokeColor="@color/primaryColor"
+        app:strokeColor="@color/primary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -29,7 +32,8 @@
                 android:layout_margin="25dp"
                 android:layout_gravity="center"
                 android:contentDescription="@string/image_description"
-                android:src="@drawable/tag" />
+                android:src="@drawable/tag"
+                app:tint="@color/accent" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -39,9 +43,9 @@
 
                 <TextView
                     android:id="@+id/list_title_textview"
-                    style="@style/Theme.CocktailApp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textAppearance="@style/itemListText"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -53,6 +57,7 @@
                     android:layout_gravity="center"
                     android:contentDescription="@string/image_description"
                     android:src="@drawable/baseline_navigate_next_24"
+                    app:tint="@color/accent"
                     android:layout_marginEnd="10dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -62,18 +67,5 @@
         </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>
-
-    <!--<TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:text="No alcohol"
-        android:gravity="center"
-        android:layout_margin="5dp"
-        android:id="@+id/list_title_textview" />
-
-    <com.google.android.material.divider.MaterialDivider
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

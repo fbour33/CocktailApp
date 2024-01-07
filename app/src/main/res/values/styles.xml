@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="CardText" parent="@style/TextAppearance.AppCompat.Light.SearchResult.Title">
+        <!-- Customisez la taille de la police, la couleur, etc. -->
+        <item name="android:fontFamily">sans-serif</item> <!-- Utilise Roboto -->
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/text_primary</item>
+    </style>
+
+    <style name="itemListText" parent="@style/TextAppearance.AppCompat.Light.SearchResult.Title">
+        <!-- Customisez la taille de la police, la couleur, etc. -->
+        <item name="android:fontFamily">sans-serif</item> <!-- Utilise Roboto -->
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/text_primary</item>
+    </style>
+
+    <style name="random_button" parent="@style/TextAppearance.AppCompat.Button">
+        <!-- Customisez la taille de la police, la couleur, etc. -->
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/text_primary</item>
+    </style>
+</resources>
