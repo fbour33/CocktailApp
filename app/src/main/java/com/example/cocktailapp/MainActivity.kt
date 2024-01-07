@@ -83,6 +83,12 @@ class MainActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, Categ
             .replace(binding.fragmentContainer.id, tabFragment, getString(titleId)).commit()
     }
 
+    override fun onSupportNavigateUp(): Boolean {
+        // Permet de gérer la flèche de retour
+        // Vous devrez peut-être ajuster cette logique en fonction de votre implémentation spécifique
+        return supportFragmentManager.popBackStackImmediate() || super.onSupportNavigateUp()
+    }
+
     private fun onTabChange(tab: TabLayout.Tab) {
         when (tab.position) {
             0 -> displayTab(SearchFragment.newInstance(), R.string.search_text)

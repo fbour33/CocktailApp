@@ -8,7 +8,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.*
 import java.io.IOException
-import java.util.concurrent.CompletableFuture
 
 class SearchDrinkFetcher {
 

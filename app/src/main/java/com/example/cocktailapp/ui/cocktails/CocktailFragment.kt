@@ -6,14 +6,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.cocktailapp.R
 import com.example.cocktailapp.core.model.ApiUrls
 import com.example.cocktailapp.core.model.Drink
-import com.example.cocktailapp.core.model.DrinksResponse
 import com.example.cocktailapp.core.service.SearchDrinkFetcher
-import com.example.cocktailapp.databinding.FragmentCategoriesBinding
 import com.example.cocktailapp.databinding.FragmentCocktailBinding
 import com.example.cocktailapp.ui.search.SearchAdapter
 import java.lang.IllegalArgumentException
@@ -61,6 +58,8 @@ class CocktailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        (activity as? AppCompatActivity)?.supportActionBar?.setDisplayHomeAsUpEnabled(true)
         binding.noResultView.visibility = View.INVISIBLE
         binding.cocktailRecyclerView.visibility = View.INVISIBLE
         binding.circularProgressIndicator.visibility = View.VISIBLE

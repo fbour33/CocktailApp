@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             app:menu="@menu/top_app_bar"
             app:title="@string/search_text"
-            android:minHeight="?attr/actionBarSize" />
+            android:minHeight="?attr/actionBarSize"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 

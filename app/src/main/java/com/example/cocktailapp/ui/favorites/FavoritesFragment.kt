@@ -5,8 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.datastore.preferences.core.Preferences
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.cocktailapp.DataStoreUtils
@@ -40,6 +40,11 @@ class FavoritesFragment : Fragment() {
         binding.noResultView.visibility = View.INVISIBLE
         binding.cocktailRecyclerView.visibility = View.INVISIBLE
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        (activity as? AppCompatActivity)?.supportActionBar?.setDisplayHomeAsUpEnabled(false)
     }
 
     private fun loadData(allFavorites: Set<Preferences.Key<*>>?){

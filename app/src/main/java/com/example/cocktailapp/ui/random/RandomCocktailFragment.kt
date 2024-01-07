@@ -2,20 +2,16 @@ package com.example.cocktailapp.ui.random
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.appcompat.app.AppCompatActivity
 import com.example.cocktailapp.ActivityCocktailDetail
 import com.example.cocktailapp.core.model.ApiUrls
 import com.example.cocktailapp.core.model.DrinksResponse
 import com.example.cocktailapp.core.service.SearchDrinkFetcher
 import com.example.cocktailapp.databinding.FragmentRandomCocktailBinding
-import com.example.cocktailapp.ui.cocktails.FragmentType
-import com.example.cocktailapp.ui.ingredients.IngredientsAdapter
-import com.example.cocktailapp.ui.ingredients.IngredientsFragment
 
 /**
  * A simple [Fragment] subclass.
@@ -40,6 +36,7 @@ class RandomCocktailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (activity as? AppCompatActivity)?.supportActionBar?.setDisplayHomeAsUpEnabled(false)
         binding.randomButton.setOnClickListener {
             it.visibility = View.GONE
             binding.circularProgressIndicator.visibility = View.VISIBLE
