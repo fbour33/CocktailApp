@@ -11,7 +11,7 @@ import com.example.cocktailapp.databinding.ItemListBinding
 import com.google.android.material.card.MaterialCardView
 
 
-class CategoryViewHolder(private val binding: ItemListBinding) : RecyclerView.ViewHolder(binding.root) {
+class CategoryViewHolder(binding: ItemListBinding) : RecyclerView.ViewHolder(binding.root) {
     val titleTextView: TextView = binding.listTitleTextview
     val iconView: ImageView = binding.listIcon
     val listContainer: MaterialCardView = binding.listCard

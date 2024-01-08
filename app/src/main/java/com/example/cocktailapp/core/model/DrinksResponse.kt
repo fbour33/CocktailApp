@@ -9,7 +9,7 @@ class DrinksResponse {
 }
 
 class Drink {
-    public fun getIngredients(): List<String> {
+    fun getIngredients(): List<String> {
         return listOf(
             ingredient1 ?: "",
             ingredient2 ?: "",
@@ -29,7 +29,7 @@ class Drink {
         )
     }
 
-    public fun getMeasures(): List<String> {
+    fun getMeasures(): List<String> {
         return listOf(
             measure1 ?: "",
             measure2 ?: "",

@@ -34,6 +34,7 @@ mais avec les ingrédients.
 - **Fragment aléatoires**: Contient un bouton qui fait appel à l'API afin d'obtenir un 
 cocktail aléatoire. Ce bouton renvoie vers la page détail d'un cocktail (voir ci dessous) choisi aléatoirement. 
 On a fait le choix d'avoir qu'un seul bouton sur ce fragment afin de pouvoir choisir
+à plusieurs reprises un cocktail aléatoire.
 
 - **Fragment favoris**: Contient la liste des cocktail qui ont été ajouté aux favoris (voir ci dessous). Ce fragment est dynamique, dès qu'un cocktail est supprimé des favoris, il se met à jour pour l'enlever.  
 
