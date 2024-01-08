@@ -27,7 +27,7 @@ class RandomCocktailFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentRandomCocktailBinding.inflate(inflater, container, false)
         binding.circularProgressIndicator.visibility = View.GONE
@@ -37,7 +37,7 @@ class RandomCocktailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (activity as? AppCompatActivity)?.supportActionBar?.setDisplayHomeAsUpEnabled(false)
-        binding.randomButton.setOnClickListener {
+        binding.randomButton.setOnClickListener { it ->
             it.visibility = View.GONE
             binding.circularProgressIndicator.visibility = View.VISIBLE
             cocktailFetcher.fetchData(ApiUrls.URL_COCKTAIL_RANDOM) { ingredientResponse ->

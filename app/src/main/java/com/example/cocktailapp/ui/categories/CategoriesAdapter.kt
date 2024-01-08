@@ -10,7 +10,8 @@ import com.example.cocktailapp.core.model.DrinksResponse
 import com.example.cocktailapp.databinding.ItemListBinding
 import com.google.android.material.card.MaterialCardView
 
-class CategoryViewHolder(private val binding: ItemListBinding) : RecyclerView.ViewHolder(binding.root) {
+
+class CategoryViewHolder(binding: ItemListBinding) : RecyclerView.ViewHolder(binding.root) {
     val titleTextView: TextView = binding.listTitleTextview
     val iconView: ImageView = binding.listIcon
     val listContainer: MaterialCardView = binding.listCard
@@ -29,7 +30,7 @@ class CategoryAdapter(
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
         val category: Drink? = categoryList.drinks?.get(position)
         holder.titleTextView.text = category?.category ?: ""
-        var resId: Int = holder.iconView.context.resources.getIdentifier("@drawable/tag", null, holder.iconView.context.packageName)
+        val resId: Int = holder.iconView.context.resources.getIdentifier("@drawable/tag", null, holder.iconView.context.packageName)
         holder.iconView.setImageResource(resId)
         holder.listContainer.setOnClickListener {
             val categoryName = category?.category ?: ""

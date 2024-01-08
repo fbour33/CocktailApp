@@ -50,7 +50,7 @@ class CocktailFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentCocktailBinding.inflate(inflater, container, false)
         return binding.root
@@ -77,13 +77,12 @@ class CocktailFragment : Fragment() {
 
     private fun updateUI(drinks: List<Drink>) {
         activity?.runOnUiThread {
-            val drinkList = drinks?: emptyList()
-            cocktailAdapter = SearchAdapter(drinkList)
+            cocktailAdapter = SearchAdapter(drinks)
             binding.cocktailRecyclerView.adapter = cocktailAdapter
             val gridLayoutManager = GridLayoutManager(context, 2)
             binding.cocktailRecyclerView.layoutManager = gridLayoutManager
             binding.circularProgressIndicator.visibility = View.GONE
-            if (drinkList.isEmpty()){
+            if (drinks.isEmpty()){
                 binding.noResultView.visibility = View.VISIBLE
             }else{
                 binding.cocktailRecyclerView.visibility = View.VISIBLE
